@@ -1,8 +1,10 @@
 package com.gadator.gadator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,13 +16,35 @@ import java.util.Date;
 public class TextMessage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
+    @Column(name = "user")
     private String user;
 
+    @Column(name = "sent_date")
     private Date sentDate;
 
+    @Column(name = "content")
     private String content;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
+
+    public TextMessage()
+    {
+
+    }
+
+    public TextMessage(String user, String content, Conversation conversation)
+    {
+        this.setUser(user);
+        this.setContent(content);
+        this.setSentDate(new Date());
+        this.setConversation(conversation);
+
+    }
 }

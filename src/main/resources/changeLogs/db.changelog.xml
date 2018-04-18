@@ -5,7 +5,18 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="createMessages" author="konriz">
+    <changeSet id="createTables" author="konriz">
+
+        <createTable tableName="conversations">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
         <createTable tableName="messages">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -17,8 +28,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="content" type="TEXT"/>
+            <column name="conversation_id" type="int">
+                <constraints foreignKeyName="fk_id" references="conversations(id)"/>
+            </column>
         </createTable>
-    </changeSet>
 
+    </changeSet>
 
 </databaseChangeLog>
