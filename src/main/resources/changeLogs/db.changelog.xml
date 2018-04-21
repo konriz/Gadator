@@ -7,6 +7,15 @@
 
     <changeSet id="createTables" author="konriz">
 
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
         <createTable tableName="conversations">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -14,22 +23,21 @@
             <column name="name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
-
         </createTable>
 
         <createTable tableName="messages">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="user" type="varchar(100)">
-                <constraints nullable="false"/>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_user" references="users(id)"/>
             </column>
             <column name="sent_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
             <column name="content" type="TEXT"/>
             <column name="conversation_id" type="int">
-                <constraints foreignKeyName="fk_id" references="conversations(id)"/>
+                <constraints foreignKeyName="fk_conversation" references="conversations(id)"/>
             </column>
         </createTable>
 

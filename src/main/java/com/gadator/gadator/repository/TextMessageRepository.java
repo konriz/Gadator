@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+public interface TextMessageRepository extends JpaRepository<TextMessage, Integer>{
 
-public interface MessageRepository extends JpaRepository<TextMessage, Integer> {
+    List<TextMessage> findAllByConversation(Conversation c);
 
-    public List<TextMessage> findAllByConversation(Conversation conversation);
 }
