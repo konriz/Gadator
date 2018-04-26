@@ -7,32 +7,29 @@
 </head>
 <body>
 <h1 >form</h1>
-<form action="/registration" method="POST" enctype="utf8">
+
+<form>
     <div>
-        <label>first</label>
-        <input />
+        <label>Name</label>
+        <input th:field="${user.name}"/>
     </div>
+
+    <label>E-mail</label>
+    <input type="email" th:field="${user.email}"/>
+
     <div>
-        <label>[[${message}]]</label>
+        <label>Password</label>
+        <input type="password" th:field="${user.password}"/>
     </div>
+
     <div>
-        <label>last</label>
-        <input/>
+        <label>Confirm password</label>
+        <input type="password" th:field="${user.matchingPassword}"/>
     </div>
-    <div>
-        <label>email</label>
-        <input type="email"/>
-    </div>
-    <div>
-        <label>password</label>
-        <input type="password"/>
-    </div>
-    <div>
-        <label>confirm</label>
-        <input type="password"/>
-    </div>
-    <input type="submit" value="Register"/>
+
+    <button type="submit">Submit!</button>
 
 </form>
+
 </body>
 </html>
