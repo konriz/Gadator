@@ -2,21 +2,20 @@ package com.gadator.gadator.controller;
 
 import com.gadator.gadator.DTO.UserDTO;
 import com.gadator.gadator.entity.User;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
+import com.gadator.gadator.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView showRegistrationForm()
@@ -44,5 +43,13 @@ public class UserController {
         User registered = new User(accountDTO.getName());
         return registered;
     }
+
+    @GetMapping("/list")
+    public List<User> getUsers()
+    {
+        return userRepository.findAll();
+    }
+
+
 
 }

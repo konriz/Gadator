@@ -2,14 +2,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Spring Security Example</title>
+    <title>MessAnger</title>
 </head>
 <body>
-    <h1>Welcome!</h1>
+    <h1 th:text="#{home.header}">Welcome!</h1>
 
-    <p>Click <a th:href="@{/login}">here</a> to log in.</p>
+    <p th:text="#{home.welcome}">Welcome to MessAnger, simple messenger project.</p>
 
-    <p>Click <a th:href="@{/user/registration}">here</a> to register.</p>
+    <p th:text="#{home.today(${today})}">Today is:</p>
+
+    <div>
+        <p>Select an option:</p>
+        <ol>
+            <li><a href="conversations.html" th:href="@{conversations/list}">Conversations</a></li>
+            <li><a href="user/registration.html" th:href="@{user/registration}">Registration</a></li>
+
+        </ol>
+    </div>
 
 </body>
 </html>

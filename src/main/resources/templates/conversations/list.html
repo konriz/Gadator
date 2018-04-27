@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversations List</title>
+</head>
+<body>
+
+<h1>List of conversations</h1>
+<ul th:each="conversation : ${list}">
+        <a th:href="@{${conversation}}">
+            <li th:text="${conversation}">
+                Conversation name
+            </li>
+        </a>
+</ul>
+
+
+</body>
+</html>

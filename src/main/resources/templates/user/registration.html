@@ -8,26 +8,26 @@
 <body>
 <h1 >form</h1>
 
-<form>
+<form action="user/registration.html" th:action="@{/user/registration}" th:object="${user}" method="post">
     <div>
         <label>Name</label>
-        <input th:field="${user.name}"/>
+        <input type="text" name="name" th:field="*{name}"/>
     </div>
 
     <label>E-mail</label>
-    <input type="email" th:field="${user.email}"/>
+    <input type="email" th:field="*{email}"/>
 
     <div>
         <label>Password</label>
-        <input type="password" th:field="${user.password}"/>
+        <input type="password" th:field="*{password}"/>
     </div>
 
     <div>
         <label>Confirm password</label>
-        <input type="password" th:field="${user.matchingPassword}"/>
+        <input type="password" th:field="*{matchingPassword}"/>
     </div>
 
-    <button type="submit">Submit!</button>
+    <input type="submit" value="Register!"/>
 
 </form>
 
