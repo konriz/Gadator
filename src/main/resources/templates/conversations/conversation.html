@@ -5,7 +5,19 @@
     <title th:text="${conversation}">Title</title>
 </head>
 <body>
-<h1 th:text="${conversation}">Conversation name</h1>
+<h1 th:text="${conversation.name}">Conversation name</h1>
+
+<form method="post" th:object="${message}" th:action="@{/conversations/} + ${conversation.name}">
+
+    <div>
+        <input type="text" th:field="${message.content}">
+    </div>
+    <div>
+        <input type="submit" value="Send">
+    </div>
+
+</form>
+
 <table>
     <tr>
         <th>Date</th>

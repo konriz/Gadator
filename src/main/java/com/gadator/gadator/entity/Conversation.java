@@ -20,9 +20,5 @@ public class Conversation {
 
     public Conversation(){}
 
-    public Conversation(String name)
-    {
-        this.setName(name);
-    }
 
 }

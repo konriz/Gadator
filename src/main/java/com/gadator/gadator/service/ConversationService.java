@@ -1,7 +1,9 @@
 package com.gadator.gadator.service;
 
+import com.gadator.gadator.DTO.ConversationDTO;
 import com.gadator.gadator.entity.Conversation;
 import com.gadator.gadator.entity.TextMessage;
+import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.ConversationRepository;
 import com.gadator.gadator.repository.TextMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,27 @@ public class ConversationService {
         return this.conversationRepository.findOneByName(name);
     }
 
-    public void save(Conversation conversation)
+    public Conversation createNewConversation(ConversationDTO conversationDTO) throws NameExistsException
     {
-        this.conversationRepository.save(conversation);
+        if(nameExists(conversationDTO.getName()))
+        {
+            throw new NameExistsException("There is a conversation named " + conversationDTO.getName());
+        }
+
+        Conversation conversation = new Conversation();
+        conversation.setName(conversationDTO.getName());
+
+        return conversationRepository.save(conversation);
+    }
+
+    private boolean nameExists(String name)
+    {
+        Conversation conversation = conversationRepository.findOneByName(name);
+        if (conversation != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void delete(String conversationName)

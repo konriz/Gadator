@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User details</title>
+</head>
+<body>
+
+<h1>User details</h1>
+
+<div th:if="${loggedUser}" th:object="${loggedUser}">
+    <h2>You are logged in as :</h2>
+    <h2 th:text="*{name}">User Name</h2>
+    <p th:text="*{email}">User email</p>
+</div>
+
+<div th:unless="${loggedUser}">
+    <div th:if="${user}" th:object="${user}">
+        <h2 th:text="*{name}">User Name</h2>
+        <p th:text="*{email}">User email</p>
+    </div>
+    <div th:unless="${user}">
+        <h2>No such user!</h2>
+    </div>
+</div>
+
+<div th:insert="~{footer :: footer}"/>
+
+</body>
+</html>

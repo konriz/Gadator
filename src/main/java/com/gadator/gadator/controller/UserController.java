@@ -14,6 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,10 +25,26 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+    @ResponseBody
+    public ModelAndView currentUser(Principal principal)
+    {
+        User currentUser = userService.findByName(principal.getName());
+        ModelAndView mav = new ModelAndView("user/details", "loggedUser", currentUser);
+        return mav;
+    }
+
+    @GetMapping(value = "/list")
     public ModelAndView listUsers()
     {
         ModelAndView mav = new ModelAndView("user/list");
         mav.addObject("users", userService.findAll());
+        return mav;
+    }
+
+    @GetMapping(value = "/{userName}")
+    public ModelAndView showUserDetails(@PathVariable("userName") String userName)
+    {
+        ModelAndView mav = new ModelAndView("user/details", "user", userService.findByName(userName));
         return mav;
     }
 
@@ -77,13 +94,6 @@ public class UserController {
 
         return registered;
     }
-
-    @GetMapping("/list")
-    public List<User> getUsers()
-    {
-        return userService.findAll();
-    }
-
 
 
 }

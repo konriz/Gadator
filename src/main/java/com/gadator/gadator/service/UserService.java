@@ -18,13 +18,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<User> findAll()
     {
         return userRepository.findAll();
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public User findByName(String name)
+    {
+        return userRepository.findOneByName(name);
+    }
+
 
     @Transactional
     public User registerNewUserAccount(UserDTO accountDTO) throws EmailExistsException, NameExistsException

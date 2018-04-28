@@ -9,13 +9,29 @@
 
     <p th:text="#{home.welcome}">Welcome to MessAnger, simple messenger project.</p>
 
+    <div th:switch="${#authentication.getPrincipal()}">
+        <p th:case="'anonymousUser'">
+            Welcome anonymous! Please,
+            <a href="user/registration.html" th:href="@{user/registration}">register</a>
+            or
+            <a href="login.html" th:href="@{/login}">log in!</a>
+        </p>
+        <p th:case="*" th:text="'You are logged in as ' +
+        ${#authentication.getPrincipal().getUsername()}"></p>
+    </div>
+
     <p th:text="#{home.today(${today})}">Today is:</p>
 
     <div>
         <p>Select an option:</p>
         <ol>
-            <li><a href="conversations.html" th:href="@{conversations}">Conversations</a></li>
+
+            <li><a href="login.html" th:href="@{/login}">Login</a></li>
+            <li><a href="/logout">Logout</a></li>
             <li><a href="user/registration.html" th:href="@{user/registration}">Registration</a></li>
+            <li><a href="conversations.html" th:href="@{conversations/add}">Create conversation</a></li>
+            <li><a href="conversations.html" th:href="@{conversations}">Conversations list</a></li>
+
 
         </ol>
     </div>

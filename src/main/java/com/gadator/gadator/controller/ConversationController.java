@@ -1,12 +1,18 @@
 package com.gadator.gadator.controller;
 
+import com.gadator.gadator.DTO.ConversationDTO;
+import com.gadator.gadator.DTO.MessageDTO;
 import com.gadator.gadator.entity.Conversation;
 import com.gadator.gadator.entity.TextMessage;
+import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +44,27 @@ public class ConversationController {
         if(conversation != null)
         {
             ModelAndView mav = new ModelAndView("conversations/conversation");
+            mav.addObject("conversation", conversation);
+
             List<TextMessage> messages = conversationService.findAllMessagesByConversationName(conversationName);
-            mav.addObject("conversation", conversationName);
             mav.addObject("messages", messages);
+
+            MessageDTO message = new MessageDTO();
+            mav.addObject("message", message);
+
             return mav;
         }
 
         return new ModelAndView("conversations/null");
+    }
+
+    // TODO message adding system
+    @PostMapping("/{name}")
+    public ModelAndView sendMessage(@PathVariable("name") String conversationName,
+                                    @ModelAttribute("message") MessageDTO message)
+    {
+        System.out.println(message.getContent());
+        return getMessages(conversationName);
     }
 
     @GetMapping("/delete")
@@ -55,10 +75,50 @@ public class ConversationController {
     }
 
     @GetMapping("/add")
-    public String addConversation(@RequestParam("name") String conversationName)
+    public ModelAndView addConversation()
     {
-        conversationService.save(new Conversation(conversationName));
-        return "Done!";
+        ConversationDTO conversationDTO = new ConversationDTO();
+
+        ModelAndView mav = new ModelAndView("conversations/create");
+        mav.addObject("conversation", conversationDTO);
+
+        return mav;
+    }
+
+    @PostMapping("/add")
+    public ModelAndView addConversation(@ModelAttribute("conversation") @Valid ConversationDTO conversationDTO,
+                                        BindingResult result, WebRequest request)
+    {
+        Conversation conversation = new Conversation();
+
+        if(!result.hasErrors())
+        {
+            conversation = createConversation(conversationDTO, result);
+        }
+        if(conversation == null)
+        {
+            result.rejectValue("name", "message.regError");
+        }
+        if(result.hasErrors())
+        {
+            return new ModelAndView("conversations/add", "conversation", conversationDTO);
+        }
+
+        return getMessages(conversationDTO.getName());
+    }
+
+    private Conversation createConversation(ConversationDTO conversationDTO, BindingResult result)
+    {
+        Conversation conversation = null;
+        try
+        {
+            conversation = conversationService.createNewConversation(conversationDTO);
+        } catch (NameExistsException e)
+        {
+            return null;
+        }
+
+        return conversation;
     }
 
 }

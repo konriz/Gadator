@@ -8,7 +8,7 @@
 
 <h1>List of conversations</h1>
 <ul th:each="conversation : ${list}">
-        <a th:href="@{${conversation}}">
+        <a th:href="@{'/conversations/' + ${conversation}}">
             <li th:text="${conversation}">
                 Conversation name
             </li>
