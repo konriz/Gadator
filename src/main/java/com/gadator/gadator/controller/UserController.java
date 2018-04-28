@@ -2,9 +2,15 @@ package com.gadator.gadator.controller;
 
 import com.gadator.gadator.DTO.UserDTO;
 import com.gadator.gadator.entity.User;
+import com.gadator.gadator.exception.EmailExistsException;
+import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.UserRepository;
+import com.gadator.gadator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -15,7 +21,15 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+    @GetMapping
+    public ModelAndView listUsers()
+    {
+        ModelAndView mav = new ModelAndView("user/list");
+        mav.addObject("users", userService.findAll());
+        return mav;
+    }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView showRegistrationForm()
@@ -29,25 +43,45 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registerAccount(
-            @ModelAttribute("user") @Valid UserDTO accountDTO)
+            @ModelAttribute("user") @Valid UserDTO accountDTO, BindingResult result, WebRequest request,
+            Errors errors)
     {
         User registered = new User();
-        registered = createUserAccount(accountDTO);
-        System.out.println("User registered : " + registered.getName());
 
-        return new ModelAndView("home", "user", registered);
+        if (!result.hasErrors())
+        {
+            registered = createUserAccount(accountDTO, result);
+        }
+        if (registered == null)
+        {
+            result.rejectValue("email", "message.regError");
+        }
+        if(result.hasErrors())
+        {
+            return new ModelAndView("user/registration", "user", accountDTO);
+        }
+
+        return new ModelAndView("user/welcome", "user", accountDTO);
     }
 
-    private User createUserAccount(UserDTO accountDTO)
+    private User createUserAccount(UserDTO accountDTO, BindingResult result)
     {
-        User registered = new User(accountDTO.getName());
+        User registered = null;
+        try
+        {
+            registered = userService.registerNewUserAccount(accountDTO);
+        } catch (NameExistsException | EmailExistsException e)
+        {
+            return null;
+        }
+
         return registered;
     }
 
     @GetMapping("/list")
     public List<User> getUsers()
     {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
 

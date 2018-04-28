@@ -1,5 +1,7 @@
 package com.gadator.gadator.DTO;
 
+import com.gadator.gadator.validator.PasswordMatches;
+import com.gadator.gadator.validator.ValidEmail;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@PasswordMatches
 public class UserDTO {
 
     @NotNull
@@ -16,10 +19,12 @@ public class UserDTO {
 
     @NotNull
     @NotEmpty
-    private String password;
-    private String matchingPassword;
+    @ValidEmail
+    private String email;
 
     @NotNull
     @NotEmpty
-    private String email;
+    private String password;
+    private String matchingPassword;
+
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${conversation}">Title</title>
+</head>
+<body>
+<h1 th:text="${conversation}">Conversation name</h1>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Author</th>
+        <th>Content</th>
+    </tr>
+    <tr th:each="message : ${messages}">
+        <td th:text="${message.sentDate}">Sent Date</td>
+        <td th:text="${message.user.name}">User name</td>
+        <td th:text="${message.content}">Message Content</td>
+    </tr>
+</table>
+
+<div th:insert="~{footer :: footer}"/>
+
+</body>
+</html>

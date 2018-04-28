@@ -17,11 +17,13 @@ public class User {
 
     public String name;
 
-    public User() {}
+    @Column(name = "email")
+    public String email;
 
-    public User(String name)
-    {
-        this.setName(name);
-    }
+    public String password;
+
+    public String role;
+
+    public User() {}
 
 }
