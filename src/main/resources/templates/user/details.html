@@ -12,12 +12,14 @@
     <h2>You are logged in as :</h2>
     <h2 th:text="*{name}">User Name</h2>
     <p th:text="*{email}">User email</p>
+    <p th:each="role : *{roles}" th:text="${role.name}">User role</p>
 </div>
 
 <div th:unless="${loggedUser}">
     <div th:if="${user}" th:object="${user}">
         <h2 th:text="*{name}">User Name</h2>
         <p th:text="*{email}">User email</p>
+        <p th:each="role : *{roles}" th:text="${role.name}">User role</p>
     </div>
     <div th:unless="${user}">
         <h2>No such user!</h2>
