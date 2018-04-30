@@ -1,6 +1,9 @@
 package com.gadator.gadator.service;
 
+import com.gadator.gadator.entity.Privilege;
+import com.gadator.gadator.entity.Role;
 import com.gadator.gadator.entity.User;
+import com.gadator.gadator.repository.RoleRepository;
 import com.gadator.gadator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,6 +24,9 @@ public class MyUserDetailsService implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,14 +45,39 @@ public class MyUserDetailsService implements UserDetailsService{
         boolean accountNonLocked = true;
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(), user.getPassword(), getAuthorities(user.getRole()));
+                user.getName(), user.getPassword(), getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
 
     }
 
-    private static List<GrantedAuthority> getAuthorities (String role)
+    private List<GrantedAuthority> getAuthorities (List<Role> roles)
     {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
-        return authorities;
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+
+    private List<String> getPrivileges(List<Role> roles)
+    {
+        List<String> privileges = new ArrayList<>();
+        List<Privilege> collection = new ArrayList<>();
+        for (Role role : roles)
+        {
+            collection.addAll(role.getPrivileges());
+        }
+        for (Privilege privilege : collection)
+        {
+            privileges.add(privilege.getName());
+        }
+
+        return privileges;
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges)
+    {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (String privilege : privileges)
+        {
+            grantedAuthorities.add(new SimpleGrantedAuthority(privilege));
+        }
+
+        return grantedAuthorities;
     }
 }

@@ -7,6 +7,43 @@
 
     <changeSet id="createTables" author="konriz">
 
+        <!-- Create privileges table -->
+        <createTable tableName="privileges">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <!-- Create roles table -->
+        <createTable tableName="roles">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+
+        <!-- Create roles_privileges table -->
+        <createTable tableName="roles_privileges">
+            <column name="privilege_id" type="int">
+            </column>
+            <column name="role_id" type="int">
+            </column>
+        </createTable>
+
+        <!-- Create users_roles table -->
+        <createTable tableName="users_roles">
+            <column name="user_id" type="int">
+            </column>
+            <column name="role_id" type="int"></column>
+        </createTable>
+
+        <!-- Create users table -->
         <createTable tableName="users">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -20,11 +57,9 @@
             <column name="password" type="CHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
 
+        <!-- Create conversations table -->
         <createTable tableName="conversations">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -34,6 +69,7 @@
             </column>
         </createTable>
 
+        <!-- Create messages table -->
         <createTable tableName="messages">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -51,5 +87,6 @@
         </createTable>
 
     </changeSet>
+
 
 </databaseChangeLog>

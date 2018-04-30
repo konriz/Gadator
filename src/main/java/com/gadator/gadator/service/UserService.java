@@ -4,12 +4,14 @@ import com.gadator.gadator.DTO.UserDTO;
 import com.gadator.gadator.entity.User;
 import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
+import com.gadator.gadator.repository.RoleRepository;
 import com.gadator.gadator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -17,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -49,7 +54,7 @@ public class UserService {
         registered.setName(accountDTO.getName());
         registered.setEmail(accountDTO.getEmail());
         registered.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
-        registered.setRole("USER");
+        registered.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
         return userRepository.save(registered);
     }
