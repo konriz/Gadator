@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+    <h1>Error page</h1>
+    <h3>Unfortunatelly, there was an error.</h3>
+    <p th:text="${'It was impossible to reach ' + path}"/>
+    <p th:text="${'Details : ' + message}"/>
+
+    <div th:insert="~{footer :: footer}"/>
+
+</body>
+</html>
