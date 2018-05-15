@@ -6,6 +6,7 @@ import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.UserRepository;
 import com.gadator.gadator.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
