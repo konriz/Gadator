@@ -12,7 +12,7 @@ public class MessageDTO {
 
     @NotNull
     @NotEmpty
-    private String authorName;
+    private String author;
 
     @NotNull
     @NotEmpty

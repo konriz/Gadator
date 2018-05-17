@@ -61,16 +61,24 @@ public class ConversationController {
     // TODO message adding system
     @PostMapping("/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
-                                    @ModelAttribute("message") MessageDTO message)
+                                    @ModelAttribute("user") String userName,
+                                    @ModelAttribute("message") String messageContent)
     {
-        System.out.println(message.getContent());
+        // TODO add validators
+
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setAuthor(userName);
+        messageDTO.setConversationName(conversationName);
+        messageDTO.setContent(messageContent);
+        conversationService.saveNewMessage(messageDTO);
+
         return getMessages(conversationName);
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteConversation")
     public String deleteConversation(@RequestParam("name") String conversationName)
     {
-        conversationService.delete(conversationName);
+        conversationService.deleteConversation(conversationName);
         return "Done!";
     }
 

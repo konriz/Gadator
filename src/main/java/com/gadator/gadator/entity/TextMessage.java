@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "messages")
 @Setter
 @Entity
-public class TextMessage extends Message<String> {
+public class TextMessage extends Message{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +40,5 @@ public class TextMessage extends Message<String> {
 
     }
 
-    public TextMessage(User user, String content, Conversation conversation)
-    {
-        this.setUser(user);
-        this.setContent(content);
-        this.setSentDate(new Date());
-        this.setConversation(conversation);
 
-    }
 }

@@ -1,14 +1,17 @@
 package com.gadator.gadator.service;
 
 import com.gadator.gadator.DTO.ConversationDTO;
+import com.gadator.gadator.DTO.MessageDTO;
 import com.gadator.gadator.entity.Conversation;
 import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.ConversationRepository;
 import com.gadator.gadator.repository.TextMessageRepository;
+import com.gadator.gadator.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,6 +22,9 @@ public class ConversationService {
 
     @Autowired
     private TextMessageRepository textMessageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Conversation> findAll()
     {
@@ -53,7 +59,7 @@ public class ConversationService {
         return false;
     }
 
-    public void delete(String conversationName)
+    public void deleteConversation(String conversationName)
     {
         Conversation conversation = findConversationByName(conversationName);
         textMessageRepository.deleteAll(textMessageRepository.findAllByConversation(conversation));
@@ -66,9 +72,15 @@ public class ConversationService {
         return this.textMessageRepository.findAllByConversation(conversation);
     }
 
-    public void save(TextMessage message)
+    public TextMessage saveNewMessage(MessageDTO messageDTO)
     {
-        this.textMessageRepository.save(message);
+        TextMessage message = new TextMessage();
+        message.setUser(userRepository.findOneByName(messageDTO.getAuthor()));
+        message.setConversation(conversationRepository.findOneByName(messageDTO.getConversationName()));
+        message.setContent(messageDTO.getContent());
+        message.setSentDate(new Date());
+
+        return this.textMessageRepository.save(message);
     }
 
 
