@@ -11,7 +11,9 @@
 <form method="post" th:object="${message}" th:action="@{/conversations/} + ${conversation.name}">
 
     <div>
-        <input type="text" th:field="${message}">
+        <input type="hidden" th:field="${message.author}" value="konriz"/> <!-- TODO start here! -->
+        <input type="hidden" th:field="${message.conversationName}" value="${conversation.name}"/>
+        <input type="text" th:field="${message.content}">
     </div>
     <div>
         <input type="submit" value="Send">

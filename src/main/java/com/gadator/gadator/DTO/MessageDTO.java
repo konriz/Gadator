@@ -10,16 +10,22 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class MessageDTO {
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String author;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String content;
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     private String conversationName;
+
+    @Override
+    public String toString()
+    {
+        return author + " : " + content + " @ " + conversationName;
+    }
 
 }

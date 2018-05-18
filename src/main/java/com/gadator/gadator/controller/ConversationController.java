@@ -61,16 +61,13 @@ public class ConversationController {
     // TODO message adding system
     @PostMapping("/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
-                                    @ModelAttribute("user") String userName,
-                                    @ModelAttribute("message") String messageContent)
+                                    @ModelAttribute("message") @Valid MessageDTO messageDTO)
     {
         // TODO add validators
 
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setAuthor(userName);
-        messageDTO.setConversationName(conversationName);
-        messageDTO.setContent(messageContent);
-        conversationService.saveNewMessage(messageDTO);
+        System.out.println(messageDTO.toString());
+
+//        conversationService.saveNewMessage(messageDTO);
 
         return getMessages(conversationName);
     }
