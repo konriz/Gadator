@@ -1,14 +1,8 @@
 package com.gadator.gadator.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 
-
-@Getter
-@Setter
-public abstract class Message<T> {
+public abstract class Message {
 
     private Integer id;
 
@@ -16,7 +10,7 @@ public abstract class Message<T> {
 
     private Date sentDate;
 
-    private T content;
+    private Object content;
 
     private Conversation conversation;
 
