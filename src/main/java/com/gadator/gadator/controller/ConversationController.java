@@ -73,8 +73,7 @@ public class ConversationController {
 
         conversationService.saveNewMessage(messageDTO);
 
-        return getMessages(conversationName);
-//        return "redirect:/conversations/" + conversationName;
+        return new ModelAndView("redirect:/conversations/" + conversationName);
     }
 
     @GetMapping("/deleteConversation")
