@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,16 +59,16 @@ public class ConversationController {
         return new ModelAndView("conversations/null");
     }
 
-    // TODO message adding system
     @PostMapping("/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
-                                    @ModelAttribute("message") @Valid MessageDTO messageDTO)
+                                    @ModelAttribute("messageContent") MessageDTO messageDTO,
+                                    Principal principal)
     {
         // TODO add validators
+        messageDTO.setConversationName(conversationName);
+        messageDTO.setAuthor(principal.getName());
 
-        System.out.println(messageDTO.toString());
-
-//        conversationService.saveNewMessage(messageDTO);
+        conversationService.saveNewMessage(messageDTO);
 
         return getMessages(conversationName);
     }

@@ -7,13 +7,10 @@
 <body>
 <h1 th:text="${conversation.name}">Conversation name</h1>
 
-<!-- TODO message post system -->
 <form method="post" th:object="${message}" th:action="@{/conversations/} + ${conversation.name}">
 
     <div>
-        <input type="hidden" th:field="${message.author}" value="konriz"/> <!-- TODO start here! -->
-        <input type="hidden" th:field="${message.conversationName}" value="${conversation.name}"/>
-        <input type="text" th:field="${message.content}">
+        <input type="text" th:field="*{content}">
     </div>
     <div>
         <input type="submit" value="Send">
