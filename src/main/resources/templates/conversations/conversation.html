@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${conversation}">Title</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title th:text="${'MessAnger' + conversation.name}">Title</title>
 </head>
 <body>
 <h1 th:text="${conversation.name}">Conversation name</h1>

@@ -40,5 +40,17 @@ public class TextMessage extends Message{
 
     }
 
+    @Override
+    public String toString()
+    {
+            StringBuilder messageString = new StringBuilder();
+            messageString.append(user.getName());
+            messageString.append(" @ ");
+            messageString.append(conversation.getName());
+            messageString.append(" : ");
+            messageString.append(getContent());
+            return messageString.toString();
+    }
+
 
 }
