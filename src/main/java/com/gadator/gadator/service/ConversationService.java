@@ -8,12 +8,14 @@ import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.ConversationRepository;
 import com.gadator.gadator.repository.TextMessageRepository;
 import com.gadator.gadator.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ConversationService {
 
@@ -79,6 +81,8 @@ public class ConversationService {
         message.setConversation(conversationRepository.findOneByName(messageDTO.getConversationName()));
         message.setContent(messageDTO.getContent());
         message.setSentDate(new Date());
+
+        log.info("Message saved : " + message.toString());
 
         return this.textMessageRepository.save(message);
     }

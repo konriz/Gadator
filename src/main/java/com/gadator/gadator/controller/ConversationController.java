@@ -7,6 +7,7 @@ import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -62,7 +63,9 @@ public class ConversationController {
     @PostMapping("/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
                                     @ModelAttribute("messageContent") MessageDTO messageDTO,
-                                    Principal principal)
+                                    Principal principal,
+                                    BindingResult bindingResult,
+                                    Model model)
     {
         // TODO add validators
         messageDTO.setConversationName(conversationName);
@@ -70,7 +73,7 @@ public class ConversationController {
 
         conversationService.saveNewMessage(messageDTO);
 
-        return getMessages(conversationName);
+        return new ModelAndView("redirect:/conversations/" + conversationName);
     }
 
     @GetMapping("/deleteConversation")
