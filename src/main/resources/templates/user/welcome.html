@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome user!</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav th:insert="~{header :: navigation}"/>
+
 <h1 th:text="'Welcome ' + ${user.name} ">Welcome user!</h1>
 
 <div th:insert="~{footer :: footer}"/>

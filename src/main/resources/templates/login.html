@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Login page</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav th:insert="~{header :: navigation}"/>
+
 <div th:if="${param.error}">
     Invalid username and password.
 </div>

@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav th:insert="~{header :: navigation}"/>
+
     <h1>Error page</h1>
     <h3>Unfortunatelly, there was an error.</h3>
     <p th:text="${'It was impossible to reach ' + path}"/>
