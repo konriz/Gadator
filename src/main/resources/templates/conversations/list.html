@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Conversations List</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
+<nav th:insert="~{header :: navigation}"/>
+
 <h1>List of conversations</h1>
+
+<h4><a href="./create.html" th:href="@{'conversations/add'}">Create new</a> </h4>
+
 <ul th:each="conversation : ${list}">
-        <a th:href="@{'/conversations/' + ${conversation}}">
+        <a th:href="@{'/conversations/id/' + ${conversation}}">
             <li th:text="${conversation}">
                 Conversation name
             </li>

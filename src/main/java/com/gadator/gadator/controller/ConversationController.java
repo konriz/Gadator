@@ -38,7 +38,7 @@ public class ConversationController {
         return mav;
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/id/{name}")
     public ModelAndView getMessages(@PathVariable("name") String conversationName)
     {
         Conversation conversation = conversationService.findConversationByName(conversationName);
@@ -57,10 +57,10 @@ public class ConversationController {
             return mav;
         }
 
-        return new ModelAndView("conversations/null");
+        return new ModelAndView("conversations/id/null");
     }
 
-    @PostMapping("/{name}")
+    @PostMapping("/id/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
                                     @ModelAttribute("messageContent") MessageDTO messageDTO,
                                     Principal principal,
@@ -73,7 +73,7 @@ public class ConversationController {
 
         conversationService.saveNewMessage(messageDTO);
 
-        return new ModelAndView("redirect:/conversations/" + conversationName);
+        return new ModelAndView("redirect:/conversations/id/" + conversationName);
     }
 
     @GetMapping("/deleteConversation")
@@ -113,7 +113,7 @@ public class ConversationController {
             return new ModelAndView("conversations/add", "conversation", conversationDTO);
         }
 
-        return getMessages(conversationDTO.getName());
+        return new ModelAndView("redirect:/conversations/id/" + conversation.getName());
     }
 
     private Conversation createConversation(ConversationDTO conversationDTO, BindingResult result)

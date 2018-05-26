@@ -3,11 +3,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <title th:text="${'MessAnger' + conversation.name}">Title</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<nav th:insert="~{header :: navigation}"/>
+
 <h1 th:text="${conversation.name}">Conversation name</h1>
 
-<form method="post" th:object="${message}" th:action="@{/conversations/} + ${conversation.name}">
+<form method="post" th:object="${message}" th:action="@{/conversations/id/} + ${conversation.name}">
 
     <div>
         <input type="text" th:field="*{content}">

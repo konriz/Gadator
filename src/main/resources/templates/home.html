@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>MessAnger</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <nav th:insert="~{header :: navigation}"/>
+
     <h1 th:text="#{home.header}">Welcome!</h1>
 
     <p th:text="#{home.welcome}">Welcome to MessAnger, simple messenger project.</p>
@@ -21,21 +24,6 @@
     </div>
 
     <p th:text="#{home.today(${today})}">Today is:</p>
-
-    <div>
-        <p>Select an option:</p>
-        <ol>
-
-            <li><a href="login.html" th:href="@{/login}">Login</a></li>
-            <li><a href="/logout">Logout</a></li>
-            <li><a href="user/registration.html" th:href="@{user/registration}">Registration</a></li>
-            <li><a href="conversations.html" th:href="@{conversations/add}">Create conversation</a></li>
-            <li><a href="conversations.html" th:href="@{conversations}">Conversations list</a></li>
-            <li><a href="user/users.html" th:href="@{user/list}">Users list</a></li>
-
-
-        </ol>
-    </div>
 
 </body>
 </html>
