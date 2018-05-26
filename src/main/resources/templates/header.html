@@ -9,12 +9,15 @@
 <nav class="navigation" th:fragment="navigation" th:switch="${#authentication.getPrincipal()}">
 
     <ul th:case="'anonymousUser'">
-        <li><a href="user/registration.html" th:href="@{user/registration}">Registration</a></li>
-        <li><a href="login.html" th:href="@{/login}">Login</a></li>
+
+        <li><a href="/home.html" th:href="@{/}">Home</a></li>
+        <li><a href="/user/registration.html" th:href="@{user/registration}">Registration</a></li>
+        <li><a href="/login.html" th:href="@{/login}">Login</a></li>
     </ul>
 
     <ul th:case="*">
-        <li><a href="conversations.html" th:href="@{conversations}">Conversations</a></li>
+        <li><a href="/home.html" th:href="@{/}">Home</a></li>
+        <li><a href="/conversations.html" th:href="@{/conversations/}">Conversations</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
 

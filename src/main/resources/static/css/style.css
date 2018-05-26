@@ -4,13 +4,13 @@ body {
     background-color: #292929;
     color: #CECECE;
 }
-nav ul, footer ul {
+nav ul {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
     list-style: none;
     font-weight: bold;
 }
-nav ul li, footer ul li {
+nav ul li {
     display: inline;
     margin-right: 20px;
 }
@@ -22,22 +22,21 @@ a:hover {
     text-decoration: underline;
 }
 h1 {
-    font-size: 3em;
+    font-size: 2em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 p {
-    font-size: 1.5em;
-    line-height: 1.4em;
+    font-size: 1.2em;
     color: #CECECE;
 }
-footer {
-    border-top: 1px solid #d5d5d5;
+
+p.footer {
     font-size: .8em;
 }
 
 ul {
     margin: 20px auto 40px;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 ul li {
@@ -49,8 +48,33 @@ input {
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
+    border-radius: 4px;
+}
+
+#sendMessage {
+    cursor: pointer;
+    width: 10%;
+}
+
+#newConversation {
+    cursor: pointer;
+    width: 25%;
 }
 
 label {
     display: block;
+}
+
+div.post {
+    background-color: #007399;
+    padding: 10px;
+    border-radius: 5px;
+    width: 55%;
+    margin: 10px;
+    border: 4px inset white;
+}
+
+div.head {
+    font-size: .8em;
+    border-bottom: 2px gray solid;
 }

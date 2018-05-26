@@ -11,7 +11,9 @@
 
 <h1>List of conversations</h1>
 
-<h4><a href="./create.html" th:href="@{'conversations/add'}">Create new</a> </h4>
+<form th:action="@{/conversations/add}" method="get">
+    <button id="newConversation">Create new</button>
+</form>
 
 <ul th:each="conversation : ${list}">
         <a th:href="@{'/conversations/id/' + ${conversation}}">

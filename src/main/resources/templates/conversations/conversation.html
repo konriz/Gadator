@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-    <title th:text="${'MessAnger' + conversation.name}">Title</title>
+    <title th:text="${'MessAnger: ' + conversation.name}">Title</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -14,26 +14,23 @@
 <form method="post" th:object="${message}" th:action="@{/conversations/id/} + ${conversation.name}">
 
     <div>
-        <input type="text" th:field="*{content}">
-    </div>
-    <div>
-        <input type="submit" value="Send">
+        <label for="message">Your message</label>
+        <input type="text" id="message" th:field="*{content}">
+        <input type="submit" id="sendMessage" value="Send">
     </div>
 
 </form>
 
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Author</th>
-        <th>Content</th>
-    </tr>
-    <tr th:each="message : ${messages}">
-        <td th:text="${message.sentDate}">Sent Date</td>
-        <td th:text="${message.user.name}">User name</td>
-        <td th:text="${message.content}">Message Content</td>
-    </tr>
-</table>
+<!-- TODO create forum-like view -->
+<div class="post" th:each="message : ${messages}">
+    <div class="head">
+        <!-- message.user.name -->
+        <p th:text="${message.user.name} + ' : ' + ${message.sentDate}"/>
+    </div>
+    <div class="content">
+        <p th:text="${message.content}"/>
+    </div>
+</div>
 
 <div th:insert="~{footer :: footer}"/>
 
