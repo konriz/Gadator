@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav th:insert="~{header :: navigation}"/>
+
+<h1 id="deleteConversation" th:text="'Do you want to delete '+${conversation.name} +' ?' ">Delete conversation</h1>
+
+<form th:action="@{/conversations/delete(name=${conversation.name})}"  method="post">
+    <div>
+        <input type="submit" value="Delete!">
+    </div>
+
+
+</form>
+
+<div th:insert="~{footer :: footer}"/>
+
+</body>
+</html>

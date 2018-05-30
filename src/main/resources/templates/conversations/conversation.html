@@ -11,6 +11,12 @@
 
 <h1 th:text="${conversation.name}">Conversation name</h1>
 
+<div id="deleteButton"><!--TODO th:if session.principal is admin-->
+    <form th:action="@{/conversations/delete(name=${conversation.name})}" method="get">
+        <button id="deleteConversation">Delete conversation</button>
+    </form>
+</div>
+
 <form method="post" th:object="${message}" th:action="@{/conversations/id/} + ${conversation.name}">
 
     <div>

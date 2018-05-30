@@ -1,2 +1,7 @@
 How to bind value to field in thymeleaf?
 liquibase and hibernate db saving parameters - encoding
+
+conversations pageable
+messages pageable
+admin rights(delete conversation, delete message...)
+polish fonts in database

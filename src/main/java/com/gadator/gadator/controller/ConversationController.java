@@ -14,6 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +77,30 @@ public class ConversationController {
         return new ModelAndView("redirect:/conversations/id/" + conversationName);
     }
 
-    @GetMapping("/id/{name}/delete")
-    public String deleteConversation(@PathVariable("name") String conversationName)
+// TODO only as admin
+    @GetMapping("/delete")
+    public ModelAndView deleteConversation(@PathParam("name") String conversationName)
     {
-        // TODO create view for deleting conversation
-        conversationService.deleteConversation(conversationName);
-        return "Done!";
+        Conversation conversation = conversationService.findConversationByName(conversationName);
+        if(conversation == null)
+        {
+            return new ModelAndView("/conversations/null");
+        }
+
+        ModelAndView mav = new ModelAndView("/conversations/delete");
+        mav.addObject("conversation", conversationName);
+        return mav;
+    }
+
+    @PostMapping("/delete")
+    public ModelAndView deleteConfirm(@PathVariable("name") String conversationName)
+    {
+        if(conversationService.findConversationByName(conversationName) != null)
+        {
+            conversationService.deleteConversation(conversationName);
+        }
+
+        return new ModelAndView("redirect:/conversations");
     }
 
     @GetMapping("/add")
