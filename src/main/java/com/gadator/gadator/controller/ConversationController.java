@@ -79,7 +79,7 @@ public class ConversationController {
 
 // TODO only as admin
     @GetMapping("/delete")
-    public ModelAndView deleteConversation(@PathParam("name") String conversationName)
+    public ModelAndView deleteConversation(@RequestParam("name") String conversationName)
     {
         Conversation conversation = conversationService.findConversationByName(conversationName);
         if(conversation == null)
@@ -88,12 +88,12 @@ public class ConversationController {
         }
 
         ModelAndView mav = new ModelAndView("/conversations/delete");
-        mav.addObject("conversation", conversationName);
+        mav.addObject("conversation", conversation);
         return mav;
     }
 
     @PostMapping("/delete")
-    public ModelAndView deleteConfirm(@PathVariable("name") String conversationName)
+    public ModelAndView deleteConfirm(@RequestParam("name") String conversationName)
     {
         if(conversationService.findConversationByName(conversationName) != null)
         {
