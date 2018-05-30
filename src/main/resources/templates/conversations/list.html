@@ -9,18 +9,20 @@
 
 <nav th:insert="~{header :: navigation}"/>
 
-<h1>List of conversations</h1>
-
-<form th:action="@{/conversations/add}" method="get">
+<h1>List of conversations <form th:action="@{/conversations/add}" method="get">
     <button id="newConversation">Create new</button>
-</form>
+</form> </h1>
 
-<ul th:each="conversation : ${list}">
+
+
+<ul class="conversationList">
+    <div th:each="conversation : ${list}">
         <a th:href="@{'/conversations/id/' + ${conversation}}">
             <li th:text="${conversation}">
                 Conversation name
             </li>
         </a>
+    </div>
 </ul>
 
 <div th:insert="~{footer :: footer}"/>

@@ -57,7 +57,7 @@ public class ConversationController {
             return mav;
         }
 
-        return new ModelAndView("conversations/id/null");
+        return new ModelAndView("conversations/null");
     }
 
     @PostMapping("/id/{name}")
@@ -76,9 +76,10 @@ public class ConversationController {
         return new ModelAndView("redirect:/conversations/id/" + conversationName);
     }
 
-    @GetMapping("/deleteConversation")
-    public String deleteConversation(@RequestParam("name") String conversationName)
+    @GetMapping("/id/{name}/delete")
+    public String deleteConversation(@PathVariable("name") String conversationName)
     {
+        // TODO create view for deleting conversation
         conversationService.deleteConversation(conversationName);
         return "Done!";
     }
