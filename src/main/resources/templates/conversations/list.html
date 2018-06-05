@@ -9,9 +9,10 @@
 
 <nav th:insert="~{header :: navigation}"/>
 
-<h1>List of conversations <form th:action="@{/conversations/add}" method="get">
-    <button id="newConversation">Create new</button>
-</form> </h1>
+<h1>List of conversations</h1>
+<div class="button">
+    <a th:href="@{/conversations/add}">Create new</a>
+</div>
 
 
 

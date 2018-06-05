@@ -100,3 +100,14 @@ div.head {
     font-size: .8em;
     border-bottom: 2px gray solid;
 }
+
+div.button {
+    cursor: pointer;
+    width: 20%;
+    display: block;
+    margin: 20px 20px;
+    padding: 5px 10px;
+    background: black;
+    border: 4px inset white;
+    border-radius: 10px;
+}

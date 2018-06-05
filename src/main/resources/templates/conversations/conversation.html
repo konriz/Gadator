@@ -9,7 +9,13 @@
 
 <nav th:insert="~{header :: navigation}"/>
 
-<h1 th:text="${conversation.name}">Conversation name</h1>
+<h1 th:text="${'Conversation : ' + conversation.name}">Conversation name</h1>
+
+<div class="button"><!--TODO th:if session.principal is admin-->
+    <a th:href="@{/conversations/delete(name=${conversation.name})}">
+        Delete conversation
+    </a>
+</div>
 
 <form method="post" th:object="${message}" th:action="@{/conversations/id/} + ${conversation.name}">
 
