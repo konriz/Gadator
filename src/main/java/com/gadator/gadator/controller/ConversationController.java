@@ -97,10 +97,10 @@ public class ConversationController {
         Conversation conversation = conversationService.findConversationByName(conversationName);
         if(conversation == null)
         {
-            return new ModelAndView("/conversations/null");
+            return new ModelAndView("conversations/null");
         }
 
-        ModelAndView mav = new ModelAndView("/conversations/delete");
+        ModelAndView mav = new ModelAndView("conversations/delete");
         mav.addObject("conversation", conversation);
         return mav;
     }
