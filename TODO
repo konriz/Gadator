@@ -1,7 +1,2 @@
-How to bind value to field in thymeleaf?
-liquibase and hibernate db saving parameters - encoding
-
-conversations pageable
-messages pageable
-admin rights(delete conversation, delete message...)
+conversations and messages pageable
 polish fonts in database

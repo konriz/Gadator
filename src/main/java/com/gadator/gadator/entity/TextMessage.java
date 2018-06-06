@@ -22,6 +22,7 @@ public class TextMessage extends Message{
 
     @JoinColumn(name = "user_id")
     @ManyToOne
+// TODO   Change this to username - otherwise password with each message!
     private User user;
 
     @Column(name = "sent_date")

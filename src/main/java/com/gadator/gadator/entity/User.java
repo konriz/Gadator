@@ -5,11 +5,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @Table(name = "users")
-@Entity
+@Entity(name = "user")
 public class User {
 
     @Id
@@ -29,7 +30,7 @@ public class User {
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
-    public Collection<Role> roles;
+    public List<Role> roles;
 
 
 }

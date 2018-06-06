@@ -1,4 +1,4 @@
-package com.gadator.gadator;
+package com.gadator.gadator.configuration;
 
 
 import org.springframework.context.annotation.Configuration;

@@ -8,6 +8,8 @@ import com.gadator.gadator.repository.UserRepository;
 import com.gadator.gadator.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping
     @ResponseBody
     public ModelAndView currentUser(Principal principal)
@@ -34,6 +37,7 @@ public class UserController {
         return mav;
     }
 
+    @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
     @GetMapping(value = "/list")
     public ModelAndView listUsers()
     {

@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
+@Entity(name = "privilege")
 @Getter
 @Setter
 @Table(name = "privileges")

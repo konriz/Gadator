@@ -6,6 +6,7 @@ import com.gadator.gadator.entity.User;
 import com.gadator.gadator.repository.PrivilegeRepository;
 import com.gadator.gadator.repository.RoleRepository;
 import com.gadator.gadator.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent>{
 
@@ -49,7 +51,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         Role userRole = createRoleIfNotFound("ROLE_USER", userPrivileges);
 
-        User admin = createAdminIfNotFound(adminRole);
+        User admin = createAdminIfNotFound(roleRepository.findByName("ROLE_ADMIN"));
 
         alreadySetup = true;
     }
@@ -61,6 +63,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         if (privilege == null)
         {
+            log.info("Creating privilege " + privilegeName);
             privilege = new Privilege();
             privilege.setName(privilegeName);
             privilegeRepository.save(privilege);
@@ -76,6 +79,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         if (role == null)
         {
+            log.info("Creating role " + roleName);
             role = new Role();
             role.setName(roleName);
             role.setPrivileges(privileges);
@@ -92,6 +96,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
         if (admin == null)
         {
+            log.info("Creating admin with role " + adminRole.getName());
             admin = new User();
             admin.setName("admin");
             admin.setEmail("admin@here.com");

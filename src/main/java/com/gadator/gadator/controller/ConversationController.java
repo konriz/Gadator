@@ -7,6 +7,8 @@ import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,13 @@ public class ConversationController {
         mav.addObject("list", conversationNames);
 
         return mav;
+    }
+
+//    TODO start here!
+    @GetMapping(value = "/messages")
+    public Page<TextMessage> getAllMessages(Pageable pageable)
+    {
+        return conversationService.findAllMessagesByPage(pageable);
     }
 
     @GetMapping("/id/{name}")

@@ -6,6 +6,7 @@ import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.RoleRepository;
 import com.gadator.gadator.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -28,7 +30,7 @@ public class UserService {
 
     public List<User> findAll()
     {
-        return userRepository.findAll();
+        return userRepository.findAllByOrderByNameAsc();
     }
 
     public User findByName(String name)
@@ -50,6 +52,7 @@ public class UserService {
             throw new NameExistsException("There is an account with that name: " + accountDTO.getName());
         }
 
+        log.info("Creating user " + accountDTO.getName());
         User registered = new User();
         registered.setName(accountDTO.getName());
         registered.setEmail(accountDTO.getEmail());

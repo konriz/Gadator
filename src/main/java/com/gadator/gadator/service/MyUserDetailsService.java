@@ -45,7 +45,7 @@ public class MyUserDetailsService implements UserDetailsService{
         boolean accountNonLocked = true;
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(), user.getPassword(), getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
+                user.getName(), user.getPassword(), getAuthorities(user.getRoles()));
 
     }
 
@@ -53,6 +53,7 @@ public class MyUserDetailsService implements UserDetailsService{
     {
         return getGrantedAuthorities(getPrivileges(roles));
     }
+
 
     private List<String> getPrivileges(List<Role> roles)
     {

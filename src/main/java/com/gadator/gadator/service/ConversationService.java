@@ -10,6 +10,8 @@ import com.gadator.gadator.repository.TextMessageRepository;
 import com.gadator.gadator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -72,6 +74,11 @@ public class ConversationService {
     {
         Conversation conversation = this.findConversationByName(conversationName);
         return this.textMessageRepository.findAllByConversation(conversation);
+    }
+
+    public Page<TextMessage> findAllMessagesByPage(Pageable pageable)
+    {
+        return textMessageRepository.findAll(pageable);
     }
 
     public TextMessage saveNewMessage(MessageDTO messageDTO)
