@@ -3,6 +3,7 @@ package com.gadator.gadator.controller;
 import com.gadator.gadator.DTO.ConversationDTO;
 import com.gadator.gadator.DTO.MessageDTO;
 import com.gadator.gadator.entity.Conversation;
+import com.gadator.gadator.entity.Message;
 import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.service.ConversationService;
@@ -40,11 +41,15 @@ public class ConversationController {
         return mav;
     }
 
-//    TODO start here!
+    // TODO you can do this better!
     @GetMapping(value = "/messages")
-    public Page<TextMessage> getAllMessages(Pageable pageable)
+    public List<MessageDTO> getAllMessages(Pageable pageable)
     {
-        return conversationService.findAllMessagesByPage(pageable);
+        List<TextMessage> messages = conversationService.findAllMessagesByPage(pageable).getContent();
+
+        List<MessageDTO> messagesDTO = new ArrayList<>();
+        messages.stream().forEach(message -> messagesDTO.add(new MessageDTO(message)));
+        return messagesDTO;
     }
 
     @GetMapping("/id/{name}")

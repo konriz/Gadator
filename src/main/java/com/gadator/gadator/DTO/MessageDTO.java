@@ -1,5 +1,6 @@
 package com.gadator.gadator.DTO;
 
+import com.gadator.gadator.entity.TextMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,15 @@ public class MessageDTO {
     public String toString()
     {
         return author + " : " + content + " @ " + conversationName;
+    }
+
+    public MessageDTO(){}
+
+    public MessageDTO(TextMessage message)
+    {
+        this.setAuthor(message.getUser().getName());
+        this.setContent(message.getContent());
+        this.setConversationName(message.getConversation().getName());
     }
 
 }

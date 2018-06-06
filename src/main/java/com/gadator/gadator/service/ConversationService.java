@@ -78,6 +78,7 @@ public class ConversationService {
 
     public Page<TextMessage> findAllMessagesByPage(Pageable pageable)
     {
+
         return textMessageRepository.findAll(pageable);
     }
 
