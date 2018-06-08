@@ -1,7 +1,7 @@
 package com.gadator.gadator.service;
 
 import com.gadator.gadator.DTO.ConversationDTO;
-import com.gadator.gadator.DTO.MessageDTO;
+import com.gadator.gadator.DTO.TextMessageDTO;
 import com.gadator.gadator.entity.Conversation;
 import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
@@ -70,10 +70,11 @@ public class ConversationService {
         conversationRepository.delete(conversation);
     }
 
-    public List<TextMessage> findAllMessagesByConversationName(String conversationName) throws NullPointerException
+    public Page<TextMessageDTO> findAllMessagesByConversationName(String conversationName, Pageable pageable) throws NullPointerException
     {
-        Conversation conversation = this.findConversationByName(conversationName);
-        return this.textMessageRepository.findAllByConversation(conversation);
+
+        return this.textMessageRepository.findAllDtoByConversation(conversationName, pageable);
+
     }
 
     public Page<TextMessage> findAllMessagesByPage(Pageable pageable)
@@ -82,12 +83,12 @@ public class ConversationService {
         return textMessageRepository.findAll(pageable);
     }
 
-    public TextMessage saveNewMessage(MessageDTO messageDTO)
+    public TextMessage saveNewMessage(TextMessageDTO textMessageDTO)
     {
         TextMessage message = new TextMessage();
-        message.setUser(userRepository.findOneByName(messageDTO.getAuthor()));
-        message.setConversation(conversationRepository.findOneByName(messageDTO.getConversationName()));
-        message.setContent(messageDTO.getContent());
+        message.setUser(userRepository.findOneByName(textMessageDTO.getAuthor()));
+        message.setConversation(conversationRepository.findOneByName(textMessageDTO.getConversationName()));
+        message.setContent(textMessageDTO.getContent());
         message.setSentDate(new Date());
 
         log.info("Message saved : " + message.toString());

@@ -1,12 +1,13 @@
 package com.gadator.gadator.controller;
 
 import com.gadator.gadator.DTO.ConversationDTO;
-import com.gadator.gadator.DTO.MessageDTO;
+import com.gadator.gadator.DTO.TextMessageDTO;
 import com.gadator.gadator.entity.Conversation;
-import com.gadator.gadator.entity.Message;
 import com.gadator.gadator.entity.TextMessage;
 import com.gadator.gadator.exception.NameExistsException;
+import com.gadator.gadator.repository.TextMessageRepository;
 import com.gadator.gadator.service.ConversationService;
+import com.gadator.gadator.utils.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,9 @@ public class ConversationController {
     @Autowired
     private ConversationService conversationService;
 
+    @Autowired
+    private TextMessageRepository textMessageRepository;
+
     @GetMapping(value = {"", "/"})
     public ModelAndView getConversations()
     {
@@ -41,19 +45,9 @@ public class ConversationController {
         return mav;
     }
 
-    // TODO you can do this better!
-    @GetMapping(value = "/messages")
-    public List<MessageDTO> getAllMessages(Pageable pageable)
-    {
-        List<TextMessage> messages = conversationService.findAllMessagesByPage(pageable).getContent();
-
-        List<MessageDTO> messagesDTO = new ArrayList<>();
-        messages.stream().forEach(message -> messagesDTO.add(new MessageDTO(message)));
-        return messagesDTO;
-    }
 
     @GetMapping("/id/{name}")
-    public ModelAndView getMessages(@PathVariable("name") String conversationName)
+    public ModelAndView getMessages(@PathVariable("name") String conversationName, Pageable pageable)
     {
         Conversation conversation = conversationService.findConversationByName(conversationName);
 
@@ -62,10 +56,15 @@ public class ConversationController {
             ModelAndView mav = new ModelAndView("conversations/conversation");
             mav.addObject("conversation", conversation);
 
-            List<TextMessage> messages = conversationService.findAllMessagesByConversationName(conversationName);
+            // messages list
+            Page<TextMessageDTO> messages = conversationService.findAllMessagesByConversationName(
+                    conversationName, pageable);
             mav.addObject("messages", messages);
+            mav.addObject("page", messages.getNumber() + 1 );
+            mav.addObject("pageInfo", new PageInfo(messages));
 
-            MessageDTO message = new MessageDTO();
+            // new message
+            TextMessageDTO message = new TextMessageDTO();
             mav.addObject("message", message);
 
             return mav;
@@ -76,16 +75,14 @@ public class ConversationController {
 
     @PostMapping("/id/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
-                                    @ModelAttribute("messageContent") MessageDTO messageDTO,
-                                    Principal principal,
-                                    BindingResult bindingResult,
-                                    Model model)
+                                    @ModelAttribute("messageContent") TextMessageDTO textMessageDTO,
+                                    Principal principal)
     {
         // TODO add validators
-        messageDTO.setConversationName(conversationName);
-        messageDTO.setAuthor(principal.getName());
+        textMessageDTO.setConversationName(conversationName);
+        textMessageDTO.setAuthor(principal.getName());
 
-        conversationService.saveNewMessage(messageDTO);
+        conversationService.saveNewMessage(textMessageDTO);
 
         return new ModelAndView("redirect:/conversations/id/" + conversationName);
     }
