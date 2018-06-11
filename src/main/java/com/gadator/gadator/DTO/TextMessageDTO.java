@@ -4,22 +4,24 @@ import com.gadator.gadator.entity.TextMessage;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
 @Setter
 public class TextMessageDTO {
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty
     private String author;
 
 //    @NotNull
 //    @NotEmpty
     private String content;
 
-//    @NotNull
-//    @NotEmpty
+    @NotNull
+    @NotEmpty
     private String conversationName;
 
     private Date sentDate;

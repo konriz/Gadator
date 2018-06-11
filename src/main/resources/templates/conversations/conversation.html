@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-    <title th:text="${'MessAnger: ' + conversation.name}">Title</title>
+    <title th:text="${'Gadator: ' + conversation.name}">Title</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 
 <h1 th:text="${'Conversation : ' + conversation.name}">Conversation name</h1>
 
-<div class="button"><!--TODO th:if session.principal is admin-->
+<div class="button" th:if="${#authentication.getPrincipal().getUsername()} == 'admin'">
     <a th:href="@{/conversations/delete(name=${conversation.name})}">
         Delete conversation
     </a>
@@ -30,28 +30,29 @@
 <nav class="pager" th:fragment="pager">
 
     <ul>
-        <li class="paging-button" th:if="${pageInfo.hasPrevious()}">
+        <li class="paging-button" th:if="${messages.hasPrevious()}">
             <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=0'">
                 First
             </a>
         </li>
 
-        <li class="paging-button" th:if="${pageInfo.hasPrevious()}">
-            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${pageInfo.getPrevious()}">
+        <li class="paging-button" th:if="${messages.hasPrevious()}">
+            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${messages.previousPageable().getPageNumber()}">
                 Previous
             </a>
         </li>
 
-        <li class="paging-button" th:text="'Page no. ' + ${pageInfo.thisPage + 1} + ' out of ' + ${pageInfo.maxPage}"/>
+        <li class="paging-button"
+            th:text="'Page no. ' + ${messages.getNumber() + 1} + ' out of ' + ${messages.getTotalPages()}"/>
 
-        <li class="paging-button" th:if="${pageInfo.hasNext()}">
-            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${pageInfo.getNext()}">
+        <li class="paging-button" th:if="${messages.hasNext()}">
+            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${messages.nextPageable().getPageNumber()}">
                 Next
             </a>
         </li>
 
-        <li class="paging-button" th:if="${pageInfo.hasNext()}">
-            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${pageInfo.getMaxPage() - 1}">
+        <li class="paging-button" th:if="${messages.hasNext()}">
+            <a th:href="@{/conversations/id/} + ${conversation.name} + '?page=' + ${messages.getTotalPages() - 1}">
                 Last
             </a>
         </li>
@@ -60,10 +61,8 @@
 </nav>
 
 
-
 <div class="post" th:each="message : ${messages}">
     <div class="head">
-        <!-- message.user.name -->
         <p th:text="${message.author} + ' : ' + ${message.sentDate}"/>
     </div>
     <div class="content">

@@ -3,15 +3,16 @@ package com.gadator.gadator.controller;
 import com.gadator.gadator.DTO.ConversationDTO;
 import com.gadator.gadator.DTO.TextMessageDTO;
 import com.gadator.gadator.entity.Conversation;
-import com.gadator.gadator.entity.TextMessage;
+import com.gadator.gadator.exception.InvalidUserException;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.TextMessageRepository;
 import com.gadator.gadator.service.ConversationService;
-import com.gadator.gadator.utils.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -22,6 +23,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/conversations")
 public class ConversationController {
@@ -60,8 +62,6 @@ public class ConversationController {
             Page<TextMessageDTO> messages = conversationService.findAllMessagesByConversationName(
                     conversationName, pageable);
             mav.addObject("messages", messages);
-            mav.addObject("page", messages.getNumber() + 1 );
-            mav.addObject("pageInfo", new PageInfo(messages));
 
             // new message
             TextMessageDTO message = new TextMessageDTO();
@@ -75,20 +75,36 @@ public class ConversationController {
 
     @PostMapping("/id/{name}")
     public ModelAndView sendMessage(@PathVariable("name") String conversationName,
-                                    @ModelAttribute("messageContent") TextMessageDTO textMessageDTO,
+                                    @ModelAttribute("message") TextMessageDTO textMessageDTO,
                                     Principal principal)
     {
-        // TODO add validators
-        textMessageDTO.setConversationName(conversationName);
+
         textMessageDTO.setAuthor(principal.getName());
+        textMessageDTO.setConversationName(conversationName);
 
-        conversationService.saveNewMessage(textMessageDTO);
+        try{
+            conversationService.saveNewMessage(textMessageDTO);
+        }
+        catch (InvalidUserException e)
+        {
+            // TODO invalid message page
+            return new ModelAndView("redirect:/conversations/id/" + conversationName);
+        }
 
-        return new ModelAndView("redirect:/conversations/id/" + conversationName);
+        return new ModelAndView("redirect:/conversations/id/" + conversationName + "/last");
     }
 
-// TODO only as admin
+    @GetMapping("/id/{name}/last")
+    public ModelAndView getLastPage(@PathVariable("name") String conversationName, Pageable pageable)
+    {
+
+        Page<TextMessageDTO> firstPage = textMessageRepository.findAllDtoByConversation(conversationName, pageable);
+
+        return getMessages(conversationName, PageRequest.of(firstPage.getTotalPages() - 1, pageable.getPageSize()));
+    }
+
     @GetMapping("/delete")
+    @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
     public ModelAndView deleteConversation(@RequestParam("name") String conversationName)
     {
         Conversation conversation = conversationService.findConversationByName(conversationName);

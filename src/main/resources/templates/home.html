@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>MessAnger</title>
+    <title>Gadator</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -10,7 +10,7 @@
 
     <h1 th:text="#{home.header}">Welcome!</h1>
 
-    <p th:text="#{home.welcome}">Welcome to MessAnger, simple messenger project.</p>
+    <p th:text="#{home.welcome}">Welcome to Gadator, simple messenger project.</p>
 
     <div th:switch="${#authentication.getPrincipal()}">
         <p th:case="'anonymousUser'">
