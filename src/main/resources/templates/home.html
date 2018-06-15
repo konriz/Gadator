@@ -19,7 +19,7 @@
             or
             <a href="login.html" th:href="@{/login}">log in!</a>
         </p>
-        <p th:case="*" th:text="'You are logged in as ' +
+        <p id="identity-label" th:case="*" th:text="'You are logged in as ' +
         ${#authentication.getPrincipal().getUsername()}"></p>
     </div>
 
