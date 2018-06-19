@@ -129,7 +129,7 @@ public class ConversationController {
         return new ModelAndView("redirect:/conversations");
     }
 
-    @GetMapping("/add")
+    @GetMapping("/create")
     public ModelAndView addConversation()
     {
         ConversationDTO conversationDTO = new ConversationDTO();
@@ -140,7 +140,7 @@ public class ConversationController {
         return mav;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ModelAndView addConversation(@ModelAttribute("conversation") @Valid ConversationDTO conversationDTO,
                                         BindingResult result, WebRequest request)
     {
@@ -156,23 +156,19 @@ public class ConversationController {
         }
         if(result.hasErrors())
         {
-            return new ModelAndView("conversations/add", "conversation", conversationDTO);
+            return new ModelAndView("redirect:/conversations/create");
         }
 
         return new ModelAndView("redirect:/conversations/id/" + conversation.getName());
     }
 
-    private Conversation createConversation(ConversationDTO conversationDTO, BindingResult result)
-    {
+    private Conversation createConversation(ConversationDTO conversationDTO, BindingResult result) {
         Conversation conversation = null;
-        try
-        {
+        try {
             conversation = conversationService.createNewConversation(conversationDTO);
-        } catch (NameExistsException e)
-        {
-            return null;
+        } catch (NameExistsException e) {
+            log.info(e.getMessage());
         }
-
         return conversation;
     }
 

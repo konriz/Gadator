@@ -17,8 +17,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
+    @Column(unique = true)
     public String name;
 
+    @Column(unique = true)
     public String email;
 
     public String password;
@@ -32,5 +34,6 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     public List<Role> roles;
 
+    public User(){}
 
 }

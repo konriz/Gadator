@@ -4,11 +4,8 @@ import com.gadator.gadator.DTO.UserDTO;
 import com.gadator.gadator.entity.User;
 import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
-import com.gadator.gadator.repository.UserRepository;
-import com.gadator.gadator.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import com.gadator.gadator.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -18,21 +15,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
 
     @GetMapping
     @ResponseBody
     public ModelAndView currentUser(Principal principal)
     {
-        User currentUser = userService.findByName(principal.getName());
+        User currentUser = userServiceImpl.findByName(principal.getName());
         ModelAndView mav = new ModelAndView("user/details", "loggedUser", currentUser);
         return mav;
     }
@@ -42,14 +38,14 @@ public class UserController {
     public ModelAndView listUsers()
     {
         ModelAndView mav = new ModelAndView("user/list");
-        mav.addObject("users", userService.findAll());
+        mav.addObject("users", userServiceImpl.findAll());
         return mav;
     }
 
     @GetMapping(value = "/{userName}")
     public ModelAndView showUserDetails(@PathVariable("userName") String userName)
     {
-        ModelAndView mav = new ModelAndView("user/details", "user", userService.findByName(userName));
+        ModelAndView mav = new ModelAndView("user/details", "user", userServiceImpl.findByName(userName));
         return mav;
     }
 
@@ -91,7 +87,7 @@ public class UserController {
         User registered = null;
         try
         {
-            registered = userService.registerNewUserAccount(accountDTO);
+            registered = userServiceImpl.registerNewUserAccount(accountDTO);
         } catch (NameExistsException | EmailExistsException e)
         {
             return null;
