@@ -1,116 +1,28 @@
 package com.gadator.gadator.service;
 
 import com.gadator.gadator.DTO.ConversationDTO;
-import com.gadator.gadator.DTO.TextMessageDTO;
 import com.gadator.gadator.entity.Conversation;
-import com.gadator.gadator.entity.TextMessage;
-import com.gadator.gadator.exception.InvalidUserException;
 import com.gadator.gadator.exception.NameExistsException;
-import com.gadator.gadator.repository.ConversationRepository;
-import com.gadator.gadator.repository.TextMessageRepository;
-import com.gadator.gadator.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
-@Slf4j
-@Service
-public class ConversationService {
+/**
+ * Interface for getting conversations and messages
+ *
+ * @author Konriz
+ */
+public interface ConversationService {
 
-    @Autowired
-    private ConversationRepository conversationRepository;
+    List<Conversation> findAll();
 
-    @Autowired
-    private TextMessageRepository textMessageRepository;
+    Conversation findConversationByName(String name);
 
-    @Autowired
-    private UserRepository userRepository;
+    Conversation createNewConversation(ConversationDTO conversationDTO) throws NameExistsException;
 
-    public List<Conversation> findAll()
-    {
-        return this.conversationRepository.findAll();
-    }
+    void deleteConversation(String conversationName);
 
-    public Conversation findConversationByName(String name)
-    {
-        return this.conversationRepository.findOneByName(name);
-    }
 
-    public Conversation createNewConversation(ConversationDTO conversationDTO) throws NameExistsException
-    {
-        if(nameExists(conversationDTO.getName()))
-        {
-            throw new NameExistsException("There is a conversation named " + conversationDTO.getName());
-        }
 
-        Conversation conversation = new Conversation();
-        conversation.setName(conversationDTO.getName());
-
-        return conversationRepository.save(conversation);
-    }
-
-    private boolean nameExists(String name)
-    {
-        Conversation conversation = conversationRepository.findOneByName(name);
-        if (conversation != null)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public void deleteConversation(String conversationName)
-    {
-        Conversation conversation = findConversationByName(conversationName);
-        textMessageRepository.deleteAll(textMessageRepository.findAllByConversation(conversation));
-        conversationRepository.delete(conversation);
-    }
-
-    public Page<TextMessageDTO> findAllMessagesByConversationName(String conversationName, Pageable pageable) throws NullPointerException
-    {
-
-        return this.textMessageRepository.findAllDtoByConversation(conversationName, pageable);
-
-    }
-
-    public Page<TextMessage> findAllMessagesByPage(Pageable pageable)
-    {
-
-        return textMessageRepository.findAll(pageable);
-    }
-
-    public TextMessage saveNewMessage(@Valid TextMessageDTO textMessageDTO) throws InvalidUserException
-    {
-        TextMessage message = new TextMessage();
-        if (!userExists(textMessageDTO.getAuthor()))
-        {
-            throw new InvalidUserException("There is no user named " + textMessageDTO.getAuthor());
-        }
-
-        message.setUser(userRepository.findOneByName(textMessageDTO.getAuthor()));
-        message.setConversation(conversationRepository.findOneByName(textMessageDTO.getConversationName()));
-        message.setContent(textMessageDTO.getContent());
-        message.setSentDate(new Date());
-
-        log.info("Message saved : " + message.toString());
-
-        return this.textMessageRepository.save(message);
-    }
-
-    private boolean userExists(String userName)
-    {
-        if(userRepository.findOneByName(userName) == null)
-        {
-            return false;
-        }
-        return true;
-    }
 
 
 }

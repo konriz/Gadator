@@ -7,6 +7,7 @@ import com.gadator.gadator.exception.InvalidUserException;
 import com.gadator.gadator.exception.NameExistsException;
 import com.gadator.gadator.repository.TextMessageRepository;
 import com.gadator.gadator.service.ConversationService;
+import com.gadator.gadator.service.MessagesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,9 @@ public class ConversationController {
     @Autowired
     private TextMessageRepository textMessageRepository;
 
+    @Autowired
+    private MessagesService messagesService;
+
     @GetMapping(value = {"", "/"})
     public ModelAndView getConversations()
     {
@@ -59,7 +63,7 @@ public class ConversationController {
             mav.addObject("conversation", conversation);
 
             // messages list
-            Page<TextMessageDTO> messages = conversationService.findAllMessagesByConversationName(
+            Page<TextMessageDTO> messages = messagesService.findAllMessagesByConversationName(
                     conversationName, pageable);
             mav.addObject("messages", messages);
 
@@ -83,7 +87,7 @@ public class ConversationController {
         textMessageDTO.setConversationName(conversationName);
 
         try{
-            conversationService.saveNewMessage(textMessageDTO);
+            messagesService.saveNewMessage(textMessageDTO);
         }
         catch (InvalidUserException e)
         {
