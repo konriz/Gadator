@@ -10,15 +10,15 @@
 
     <ul th:case="'anonymousUser'">
 
-        <li id="button-home"><a href="/home.html" th:href="@{/}">Home</a></li>
-        <li id="button-registration"><a href="/user/registration.html" th:href="@{user/registration}">Registration</a></li>
-        <li id="button-login"><a href="/login.html" th:href="@{/login}">Login</a></li>
+        <li id="home-button"><a href="/home.html" th:href="@{/}">Home</a></li>
+        <li id="registration-button"><a href="/user/registration.html" th:href="@{user/registration}">Registration</a></li>
+        <li id="login-button"><a href="/login.html" th:href="@{/login}">Login</a></li>
     </ul>
 
     <ul th:case="*">
-        <li id="button-home"><a href="/home.html" th:href="@{/}">Home</a></li>
-        <li id="button-conversations"><a href="/conversations.html" th:href="@{/conversations/}">Conversations</a></li>
-        <li id="button-logout"><a href="/logout">Logout</a></li>
+        <li id="home-button"><a href="/home.html" th:href="@{/}">Home</a></li>
+        <li id="conversations-button"><a href="/conversations.html" th:href="@{/conversations/}">Conversations</a></li>
+        <li id="logout-button"><a href="/logout">Logout</a></li>
     </ul>
 
 </nav>

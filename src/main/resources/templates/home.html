@@ -12,14 +12,16 @@
 
     <p th:text="#{home.welcome}">Welcome to Gadator, simple messenger project.</p>
 
-    <div th:switch="${#authentication.getPrincipal()}">
+    <div id="identity-label" th:switch="${#authentication.getPrincipal()}">
+
         <p th:case="'anonymousUser'">
             Welcome anonymous! Please,
             <a href="user/registration.html" th:href="@{user/registration}">register</a>
             or
             <a href="login.html" th:href="@{/login}">log in!</a>
         </p>
-        <p id="identity-label" th:case="*" th:text="'You are logged in as ' +
+
+        <p  th:case="*" th:text="'You are logged in as ' +
         ${#authentication.getPrincipal().getUsername()}"></p>
     </div>
 

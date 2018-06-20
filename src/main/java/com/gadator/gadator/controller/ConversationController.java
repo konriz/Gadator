@@ -33,9 +33,6 @@ public class ConversationController {
     private ConversationService conversationService;
 
     @Autowired
-    private TextMessageRepository textMessageRepository;
-
-    @Autowired
     private MessagesService messagesService;
 
     @GetMapping(value = {"", "/"})
@@ -102,7 +99,7 @@ public class ConversationController {
     public ModelAndView getLastPage(@PathVariable("name") String conversationName, Pageable pageable)
     {
 
-        Page<TextMessageDTO> firstPage = textMessageRepository.findAllDtoByConversation(conversationName, pageable);
+        Page<TextMessageDTO> firstPage = messagesService.findAllMessagesByConversationName(conversationName, pageable);
 
         return getMessages(conversationName, PageRequest.of(firstPage.getTotalPages() - 1, pageable.getPageSize()));
     }
