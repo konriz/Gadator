@@ -1,5 +1,6 @@
 package com.gadator.gadator.DTO;
 
+import com.gadator.gadator.entity.User;
 import com.gadator.gadator.validator.PasswordMatches;
 import com.gadator.gadator.validator.ValidEmail;
 import lombok.Getter;
@@ -26,5 +27,14 @@ public class UserDTO {
     @NotEmpty
     private String password;
     private String matchingPassword;
+
+    public UserDTO(){}
+
+    public UserDTO(User user)
+    {
+        setName(user.getName());
+        setEmail(user.getEmail());
+        setPassword(user.getPassword());
+    }
 
 }

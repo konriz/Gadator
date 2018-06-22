@@ -88,7 +88,6 @@ public class ConversationController {
         }
         catch (InvalidUserException e)
         {
-            // TODO invalid message page
             return new ModelAndView("redirect:/conversations/id/" + conversationName);
         }
 

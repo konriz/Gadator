@@ -19,16 +19,33 @@ public interface TextMessageRepository extends JpaRepository<TextMessage, Intege
     @Query(
             "Select new com.gadator.gadator.DTO.TextMessageDTO(t) " +
                     "from TextMessage t " +
-                    "order by t.sentDate asc"
-    )
-    Page<TextMessageDTO> findAllDto(Pageable pageable);
-
-    @Query(
-            "Select new com.gadator.gadator.DTO.TextMessageDTO(t) " +
-                    "from TextMessage t " +
                     "where t.conversation.name = :name " +
                     "order by t.sentDate asc"
     )
     Page<TextMessageDTO> findAllDtoByConversation(@Param("name")String name, Pageable pageable);
+
+    @Query(
+            "Select t from TextMessage t " +
+                    "where t.user.name = :author"
+    )
+    List<TextMessage> findAllByAuthor(@Param("author") String author);
+
+    @Query(
+            "Select new com.gadator.gadator.DTO.TextMessageDTO(t)" +
+                    " from TextMessage t " +
+                    "where t.user.name = :author"
+    )
+    List<TextMessageDTO> findAllDTOByAuthor(@Param("author") String author);
+
+    @Query(
+            "Select new com.gadator.gadator.DTO.TextMessageDTO(t) " +
+                    "from TextMessage t " +
+                    "order by t.sentDate asc"
+    )
+    Page<TextMessageDTO> findAllDto(Pageable pageable);
+
+
+
+
 
 }

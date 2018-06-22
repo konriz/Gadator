@@ -13,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -59,5 +62,18 @@ public class MessagesServiceImpl implements MessagesService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<TextMessageDTO> findAllMessagesByAuthor(String author)
+    {
+        return textMessageRepository.findAllDTOByAuthor(author);
+    }
+
+    @Override
+    public void deleteAllMessagesByAuthor(String author)
+    {
+
+        textMessageRepository.deleteInBatch(textMessageRepository.findAllByAuthor(author));
     }
 }

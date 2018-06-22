@@ -28,14 +28,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<User> findAll()
+    @Override
+    public List<UserDTO> findAll()
     {
-        return userRepository.findAllByOrderByNameAsc();
+        return userRepository.findAllDTOByOrderByNameAsc();
     }
 
-    public User findByName(String name)
+    @Override
+    public UserDTO findByName(String name)
     {
-        return userRepository.findOneByName(name);
+        return userRepository.findOneDTOByName(name);
     }
 
 
@@ -65,18 +67,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUserAccount(UserDTO userDTO)
+    public void deleteUserAccount(String username)
     {
-        log.info("Deleting user " + userDTO.getName());
-        if(nameExists(userDTO.getName()))
+        log.info("Deleting user " + username);
+        if(nameExists(username))
         {
-            userRepository.delete(userRepository.findOneByName(userDTO.getName()));
+            userRepository.delete(userRepository.findOneByName(username));
         }
     }
 
     private boolean emailExists(String email)
     {
-        User user = userRepository.findOneByEmail(email);
+        UserDTO user = userRepository.findOneDTOByEmail(email);
         if (user != null)
         {
             return true;
@@ -86,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     private boolean nameExists(String name)
     {
-        User user = userRepository.findOneByName(name);
+        UserDTO user = userRepository.findOneDTOByName(name);
         if (user != null)
         {
             return true;

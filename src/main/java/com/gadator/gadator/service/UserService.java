@@ -5,11 +5,17 @@ import com.gadator.gadator.entity.User;
 import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
 
+import java.util.List;
+
 /**
  * Service for creating and deleting users
  * @author Konriz
  */
 public interface UserService {
+
+    List<UserDTO> findAll();
+
+    UserDTO findByName(String name);
 
     /**
      * Create new user account
@@ -22,8 +28,8 @@ public interface UserService {
 
     /**
      * Delete user account
-     * @param userDTO is a userDTO to delete
+     * @param username is an username to delete
      */
-    void deleteUserAccount(UserDTO userDTO);
+    void deleteUserAccount(String username);
 
 }

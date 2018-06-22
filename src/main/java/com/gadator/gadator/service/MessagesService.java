@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public interface MessagesService {
 
@@ -15,5 +16,8 @@ public interface MessagesService {
 
     TextMessage saveNewMessage(@Valid TextMessageDTO textMessageDTO) throws InvalidUserException;
 
+    List<TextMessageDTO> findAllMessagesByAuthor(String author);
+
+    void deleteAllMessagesByAuthor(String author);
 
 }

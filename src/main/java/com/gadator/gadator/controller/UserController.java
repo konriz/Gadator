@@ -4,7 +4,8 @@ import com.gadator.gadator.DTO.UserDTO;
 import com.gadator.gadator.entity.User;
 import com.gadator.gadator.exception.EmailExistsException;
 import com.gadator.gadator.exception.NameExistsException;
-import com.gadator.gadator.service.UserServiceImpl;
+import com.gadator.gadator.service.MessagesService;
+import com.gadator.gadator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -21,15 +22,19 @@ import java.security.Principal;
 public class UserController {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
+
+    @Autowired
+    private MessagesService messagesService;
 
 
     @GetMapping
     @ResponseBody
     public ModelAndView currentUser(Principal principal)
     {
-        User currentUser = userServiceImpl.findByName(principal.getName());
+        UserDTO currentUser = userService.findByName(principal.getName());
         ModelAndView mav = new ModelAndView("user/details", "loggedUser", currentUser);
+        mav.addObject("messages", messagesService.findAllMessagesByAuthor(currentUser.getName()));
         return mav;
     }
 
@@ -38,15 +43,28 @@ public class UserController {
     public ModelAndView listUsers()
     {
         ModelAndView mav = new ModelAndView("user/list");
-        mav.addObject("users", userServiceImpl.findAll());
+        mav.addObject("users", userService.findAll());
         return mav;
     }
 
     @GetMapping(value = "/{userName}")
     public ModelAndView showUserDetails(@PathVariable("userName") String userName)
     {
-        ModelAndView mav = new ModelAndView("user/details", "user", userServiceImpl.findByName(userName));
+        ModelAndView mav = new ModelAndView("user/details", "user", userService.findByName(userName));
+        mav.addObject("messages", messagesService.findAllMessagesByAuthor(userName));
         return mav;
+    }
+
+    @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
+    @GetMapping(value = "/{userName}/delete")
+    private void deleteUserAccount(@PathVariable("userName") String username)
+    {
+        UserDTO user = userService.findByName(username);
+        if(user != null)
+        {
+            messagesService.deleteAllMessagesByAuthor(username);
+            userService.deleteUserAccount(user.getName());
+        }
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -87,7 +105,7 @@ public class UserController {
         User registered = null;
         try
         {
-            registered = userServiceImpl.registerNewUserAccount(accountDTO);
+            registered = userService.registerNewUserAccount(accountDTO);
         } catch (NameExistsException | EmailExistsException e)
         {
             return null;
@@ -95,6 +113,8 @@ public class UserController {
 
         return registered;
     }
+
+
 
 
 }
