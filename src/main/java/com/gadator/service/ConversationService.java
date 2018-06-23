@@ -12,7 +12,6 @@ import java.util.List;
  *
  * @author Konriz
  */
-@Service("conversationService")
 public interface ConversationService {
 
     List<Conversation> findAll();
