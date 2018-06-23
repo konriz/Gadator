@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>User panel</title>
@@ -17,6 +19,11 @@
         Messages posted:
         <p th:text="${#lists.size(messages)}"></p>
     </div>
+
+    <div th:if="${#authentication.getPrincipal().getUsername()} == *{name}">
+        <a th:href="@{'/user/' + *{name} + '/delete'}">Delete account</a>
+    </div>
+
 </div>
 
 <div th:insert="~{footer :: footer}"/>

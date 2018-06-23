@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>User details</title>
@@ -18,11 +20,17 @@
             Messages posted:
             <p th:text="${#lists.size(messages)}"></p>
         </div>
+        <div th:if="${#authentication.getPrincipal().getUsername()} == 'admin'">
+            <a th:href="@{*{name} + '/delete'}">Delete account</a>
+        </div>
+
     </div>
     <div th:unless="${user}">
         <h2>No such user!</h2>
     </div>
 </div>
+
+
 
 <div th:insert="~{footer :: footer}"/>
 

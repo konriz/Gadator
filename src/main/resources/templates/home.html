@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Gadator</title>
@@ -21,7 +23,7 @@
             <a href="login.html" th:href="@{/login}">log in!</a>
         </p>
 
-        <p  th:case="*" th:text="'You are logged in as ' +
+        <p  sec:authorize="isAuthenticated()" th:text="'You are logged in as ' +
         ${#authentication.getPrincipal().getUsername()}"></p>
     </div>
 

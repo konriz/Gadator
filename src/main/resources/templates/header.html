@@ -17,7 +17,8 @@
 
     <ul th:case="*">
         <li id="home-button"><a href="/home.html" th:href="@{/}">Home</a></li>
-        <li id="panel-button"><a href="/user" th:href="@{/user}">User Panel</a></li>
+        <li id="panel-button"><a href="/user" th:href="@{/user}" th:text="${#authentication.getPrincipal().getUsername()}">User Panel</a></li>
+        <li id="users-button"><a href="/user/list" th:href="@{/user/list}">Users</a></li>
         <li id="conversations-button"><a href="/conversations.html" th:href="@{/conversations/}">Conversations</a></li>
         <li id="logout-button"><a href="/logout">Logout</a></li>
     </ul>
