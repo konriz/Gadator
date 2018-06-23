@@ -3,6 +3,7 @@ package com.gadator.service;
 import com.gadator.exception.NameExistsException;
 import com.gadator.DTO.ConversationDTO;
 import com.gadator.entity.Conversation;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author Konriz
  */
+@Service("conversationService")
 public interface ConversationService {
 
     List<Conversation> findAll();
