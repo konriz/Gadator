@@ -18,7 +18,7 @@ public interface TextMessageRepository extends JpaRepository<TextMessage, Intege
     List<TextMessage> findAllByConversation(Conversation c);
 
     @Query(
-            "Select new TextMessageDTO(t) " +
+            "Select new com.gadator.DTO.TextMessageDTO(t) " +
                     "from TextMessage t " +
                     "where t.conversation.name = :name " +
                     "order by t.sentDate asc"
@@ -32,14 +32,14 @@ public interface TextMessageRepository extends JpaRepository<TextMessage, Intege
     List<TextMessage> findAllByAuthor(@Param("author") String author);
 
     @Query(
-            "Select new TextMessageDTO(t)" +
+            "Select new com.gadator.DTO.TextMessageDTO(t)" +
                     " from TextMessage t " +
                     "where t.user.name = :author"
     )
     List<TextMessageDTO> findAllDTOByAuthor(@Param("author") String author);
 
     @Query(
-            "Select new TextMessageDTO(t) " +
+            "Select new com.gadator.DTO.TextMessageDTO(t) " +
                     "from TextMessage t " +
                     "order by t.sentDate asc"
     )

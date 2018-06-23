@@ -12,21 +12,21 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(
-            "Select new UserDTO(u) " +
+            "Select new com.gadator.DTO.UserDTO(u) " +
                     "from User u " +
                     "where u.name = :name"
     )
     UserDTO findOneDTOByName(@Param("name") String name);
 
     @Query(
-            "Select new UserDTO(u) " +
+            "Select new com.gadator.DTO.UserDTO(u) " +
                     "from User u " +
                     "where u.email = :email"
     )
     UserDTO findOneDTOByEmail(@Param("email") String email);
 
     @Query(
-            "Select new UserDTO(u) " +
+            "Select new com.gadator.DTO.UserDTO(u) " +
                     "from User u " +
                     "order by u.name asc"
     )
