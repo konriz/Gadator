@@ -44,8 +44,11 @@ p {
     color: #CECECE;
 }
 
-p.footer {
+#footer {
     font-size: .8em;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 ul {

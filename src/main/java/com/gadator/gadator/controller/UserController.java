@@ -33,7 +33,7 @@ public class UserController {
     public ModelAndView currentUser(Principal principal)
     {
         UserDTO currentUser = userService.findByName(principal.getName());
-        ModelAndView mav = new ModelAndView("user/details", "loggedUser", currentUser);
+        ModelAndView mav = new ModelAndView("user/panel", "loggedUser", currentUser);
         mav.addObject("messages", messagesService.findAllMessagesByAuthor(currentUser.getName()));
         return mav;
     }

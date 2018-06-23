@@ -10,7 +10,9 @@
 <nav th:insert="~{header :: navigation}"/>
 
 <ul>
-    <li th:each="user : ${users}" th:text="${user.name}">User name</li>
+    <li th:each="user : ${users}" >
+        <a th:href="'/user/' + ${user.name}" th:text="${user.name}">User name</a>
+    </li>
 </ul>
 
 <div th:insert="~{footer :: footer}"/>
