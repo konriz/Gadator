@@ -86,4 +86,15 @@ public class ConversationServiceImplTest {
 
     }
 
+    @Test(expected = NameExistsException.class)
+    public void givenExistingConversationName_whenCreateNewConversation_thenNameExistExceptionIsThrown() throws NameExistsException
+    {
+        String name = "TestConversation";
+        ConversationDTO inputConversation = new ConversationDTO();
+        inputConversation.setName(name);
+
+        conversationService.createNewConversation(inputConversation);
+
+    }
+
 }
