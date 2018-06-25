@@ -2,18 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List of users</title>
+    <title th:text="${user.name} + ' deleted'">Title</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
 <nav th:insert="~{header :: navigation}"/>
 
-<ul>
-    <li th:each="user : ${users}" >
-        <a th:href="'/user/' + ${user.name}" th:text="${user.name}">User name</a>
-    </li>
-</ul>
+<h1 id="deletedUser" th:text="${user.name} +' deleted' ">Deleted user</h1>
+
 
 <div th:insert="~{footer :: footer}"/>
 

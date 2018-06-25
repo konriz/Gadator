@@ -10,20 +10,23 @@
 <nav th:insert="~{header :: navigation}"/>
 
 <h1>List of conversations</h1>
-<div class="button">
-    <a th:href="@{/conversations/create}">Create new</a>
-</div>
-
+<a th:href="@{/conversations/create}">
+    <div class="button">
+        Create new
+    </div>
+</a>
 
 
 <ul class="conversationList">
-    <div th:each="conversation : ${list}">
-        <a th:href="@{'/conversations/id/' + ${conversation}}">
+
+        <a th:each="conversation : ${list}" th:href="@{'/conversations/id/' + ${conversation}}">
+            <div >
             <li th:text="${conversation}">
                 Conversation name
             </li>
+            </div>
         </a>
-    </div>
+
 </ul>
 
 <div th:insert="~{footer :: footer}"/>
