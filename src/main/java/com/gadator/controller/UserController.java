@@ -32,23 +32,22 @@ public class UserController {
     @ResponseBody
     public ModelAndView currentUser(Principal principal)
     {
-        UserDTO currentUser = userService.findByName(principal.getName());
-        ModelAndView mav = new ModelAndView("user/panel", "loggedUser", currentUser);
-        mav.addObject("messages", messagesService.findAllMessagesByAuthor(currentUser.getName()));
-        return mav;
-    }
-
-    @GetMapping(value = "/list")
-    public ModelAndView listUsers()
-    {
         ModelAndView mav = new ModelAndView("user/list");
         mav.addObject("users", userService.findAll());
         return mav;
     }
 
     @GetMapping(value = "/{userName}")
-    public ModelAndView showUserDetails(@PathVariable("userName") String userName)
+    public ModelAndView showUserDetails(@PathVariable("userName") String userName, Principal principal)
     {
+        if(userName == principal.getName())
+        {
+            UserDTO currentUser = userService.findByName(principal.getName());
+            ModelAndView mav = new ModelAndView("user/panel", "loggedUser", currentUser);
+            mav.addObject("messages", messagesService.findAllMessagesByAuthor(currentUser.getName()));
+            return mav;
+        }
+
         ModelAndView mav = new ModelAndView("user/details", "user", userService.findByName(userName));
         mav.addObject("messages", messagesService.findAllMessagesByAuthor(userName));
         return mav;
@@ -79,55 +78,5 @@ public class UserController {
         messagesService.deleteAllMessagesByAuthor(user.getName());
         userService.deleteUserAccount(user.getName());
     }
-
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public ModelAndView showRegistrationForm()
-    {
-        UserDTO userDTO = new UserDTO();
-
-        ModelAndView mav = new ModelAndView("user/registration");
-        mav.addObject("user", userDTO);
-        return mav;
-    }
-
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView registerAccount(
-            @ModelAttribute("user") @Valid UserDTO accountDTO, BindingResult result, WebRequest request,
-            Errors errors)
-    {
-        User registered = new User();
-
-        if (!result.hasErrors())
-        {
-            registered = createUserAccount(accountDTO, result);
-        }
-        if (registered == null)
-        {
-            result.rejectValue("email", "message.regError");
-        }
-        if(result.hasErrors())
-        {
-            return new ModelAndView("user/registration", "user", accountDTO);
-        }
-
-        return new ModelAndView("user/welcome", "user", accountDTO);
-    }
-
-    private User createUserAccount(UserDTO accountDTO, BindingResult result)
-    {
-        User registered = null;
-        try
-        {
-            registered = userService.registerNewUserAccount(accountDTO);
-        } catch (NameExistsException | EmailExistsException e)
-        {
-            return null;
-        }
-
-        return registered;
-    }
-
-
-
 
 }
