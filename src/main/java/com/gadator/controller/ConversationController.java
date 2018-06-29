@@ -5,6 +5,7 @@ import com.gadator.DTO.TextMessageDTO;
 import com.gadator.entity.Conversation;
 import com.gadator.exception.InvalidUserException;
 import com.gadator.exception.NameExistsException;
+import com.gadator.exception.NoConversationException;
 import com.gadator.service.ConversationService;
 import com.gadator.service.MessagesService;
 import lombok.extern.slf4j.Slf4j;
@@ -120,11 +121,13 @@ public class ConversationController {
     @PostMapping("/delete")
     public ModelAndView deleteConfirm(@RequestParam("name") String conversationName)
     {
-        if(conversationService.findConversationByName(conversationName) != null)
-        {
+        try {
             conversationService.deleteConversation(conversationName);
         }
-
+        catch (NoConversationException e)
+        {
+            log.error(e.getMessage());
+        }
         return new ModelAndView("redirect:/conversations");
     }
 

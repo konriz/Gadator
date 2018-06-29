@@ -3,8 +3,8 @@ package com.gadator.service;
 import com.gadator.DTO.ConversationDTO;
 import com.gadator.entity.Conversation;
 import com.gadator.exception.NameExistsException;
+import com.gadator.exception.NoConversationException;
 import com.gadator.repository.ConversationRepository;
-import com.gadator.repository.TextMessageRepository;
 import com.gadator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class ConversationServiceImpl implements ConversationService {
     private ConversationRepository conversationRepository;
 
     @Autowired
-    private TextMessageRepository textMessageRepository;
+    private MessagesService textMessageService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public List<Conversation> findAll()
@@ -61,11 +61,18 @@ public class ConversationServiceImpl implements ConversationService {
         return false;
     }
 
-    public void deleteConversation(String conversationName)
+    public void deleteConversation(String conversationName) throws NoConversationException
     {
         Conversation conversation = findConversationByName(conversationName);
-        textMessageRepository.deleteAll(textMessageRepository.findAllByConversation(conversation));
+
+        if(conversation == null)
+        {
+            throw new NoConversationException(conversationName);
+        }
+
+        textMessageService.deleteAllMessagesByConversation(conversationName);
         conversationRepository.delete(conversation);
+
     }
 
 }

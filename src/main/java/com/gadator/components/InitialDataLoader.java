@@ -9,6 +9,7 @@ import com.gadator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -24,15 +25,19 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     boolean alreadySetup = false;
 
     @Autowired
+    @Lazy
     private UserRepository userRepository;
 
     @Autowired
+    @Lazy
     private RoleRepository roleRepository;
 
     @Autowired
+    @Lazy
     private PrivilegeRepository privilegeRepository;
 
     @Autowired
+    @Lazy
     private PasswordEncoder passwordEncoder;
 
     @Override

@@ -13,9 +13,26 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<UserDTO> findAll();
 
-    UserDTO findByName(String name);
+    /**
+     * Return full user by name
+     * @param name username
+     * @return user with username
+     */
+    User findOneByName(String name);
+
+    /**
+     * List all users as DTOs
+     * @return all users DTOs
+     */
+    List<UserDTO> findAllDTO();
+
+    /**
+     *
+     * @param name - username of DTO to get
+     * @return DTO of user with name
+     */
+    UserDTO findDTOByName(String name);
 
     /**
      * Create new user account

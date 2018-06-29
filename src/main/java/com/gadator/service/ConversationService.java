@@ -3,6 +3,7 @@ package com.gadator.service;
 import com.gadator.exception.NameExistsException;
 import com.gadator.DTO.ConversationDTO;
 import com.gadator.entity.Conversation;
+import com.gadator.exception.NoConversationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface ConversationService {
 
     Conversation createNewConversation(ConversationDTO conversationDTO) throws NameExistsException;
 
-    void deleteConversation(String conversationName);
+    void deleteConversation(String conversationName) throws NoConversationException;
 
 
 

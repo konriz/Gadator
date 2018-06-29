@@ -19,4 +19,6 @@ public interface MessagesService {
 
     void deleteAllMessagesByAuthor(String author);
 
+    void deleteAllMessagesByConversation(String conversationName);
+
 }

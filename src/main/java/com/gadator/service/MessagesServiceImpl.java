@@ -3,9 +3,7 @@ package com.gadator.service;
 import com.gadator.DTO.TextMessageDTO;
 import com.gadator.entity.TextMessage;
 import com.gadator.exception.InvalidUserException;
-import com.gadator.repository.ConversationRepository;
 import com.gadator.repository.TextMessageRepository;
-import com.gadator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,10 +23,10 @@ public class MessagesServiceImpl implements MessagesService {
     private TextMessageRepository textMessageRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private ConversationRepository conversationRepository;
+    private ConversationService conversationService;
 
     @Override
     public Page<TextMessageDTO> findAllMessagesByConversationName(String conversationName, Pageable pageable) {
@@ -43,8 +41,8 @@ public class MessagesServiceImpl implements MessagesService {
             throw new InvalidUserException("There is no user named " + textMessageDTO.getAuthor());
         }
 
-        message.setUser(userRepository.findOneByName(textMessageDTO.getAuthor()));
-        message.setConversation(conversationRepository.findOneByName(textMessageDTO.getConversationName()));
+        message.setUser(userService.findOneByName(textMessageDTO.getAuthor()));
+        message.setConversation(conversationService.findConversationByName(textMessageDTO.getConversationName()));
         message.setContent(textMessageDTO.getContent());
         message.setSentDate(new Date());
 
@@ -55,7 +53,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     private boolean userExists(String userName)
     {
-        if(userRepository.findOneByName(userName) == null)
+        if(userService.findOneByName(userName) == null)
         {
             return false;
         }
@@ -73,5 +71,15 @@ public class MessagesServiceImpl implements MessagesService {
     {
 
         textMessageRepository.deleteInBatch(textMessageRepository.findAllByAuthor(author));
+    }
+
+    @Override
+    public void deleteAllMessagesByConversation(String conversationName)
+    {
+        textMessageRepository
+                .deleteInBatch(
+                        textMessageRepository
+                                .findAllByConversation(conversationService
+                                        .findConversationByName(conversationName)));
     }
 }

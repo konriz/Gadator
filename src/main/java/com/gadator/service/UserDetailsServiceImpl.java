@@ -21,16 +21,15 @@ import java.util.List;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService{
 
-    @Autowired
-    private UserRepository userRepository;
+//    TODO move this to UserService?
 
     @Autowired
-    private RoleRepository roleRepository;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findOneByName(username);
+        User user = userService.findOneByName(username);
         if (user == null)
         {
             throw new UsernameNotFoundException(
@@ -38,10 +37,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             );
         }
 
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
+// TODO implement this into user
+//        boolean enabled = true;
+//        boolean accountNonExpired = true;
+//        boolean credentialsNonExpired = true;
+//        boolean accountNonLocked = true;
 
         return new org.springframework.security.core.userdetails.User(
                 user.getName(), user.getPassword(), getAuthorities(user.getRoles()));

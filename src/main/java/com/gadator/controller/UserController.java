@@ -1,20 +1,13 @@
 package com.gadator.controller;
 
 import com.gadator.DTO.UserDTO;
-import com.gadator.entity.User;
-import com.gadator.exception.EmailExistsException;
-import com.gadator.exception.NameExistsException;
 import com.gadator.service.MessagesService;
 import com.gadator.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -33,7 +26,7 @@ public class UserController {
     public ModelAndView currentUser(Principal principal)
     {
         ModelAndView mav = new ModelAndView("user/list");
-        mav.addObject("users", userService.findAll());
+        mav.addObject("users", userService.findAllDTO());
         return mav;
     }
 
@@ -42,13 +35,13 @@ public class UserController {
     {
         if(userName == principal.getName())
         {
-            UserDTO currentUser = userService.findByName(principal.getName());
+            UserDTO currentUser = userService.findDTOByName(principal.getName());
             ModelAndView mav = new ModelAndView("user/panel", "loggedUser", currentUser);
             mav.addObject("messages", messagesService.findAllMessagesByAuthor(currentUser.getName()));
             return mav;
         }
 
-        ModelAndView mav = new ModelAndView("user/details", "user", userService.findByName(userName));
+        ModelAndView mav = new ModelAndView("user/details", "user", userService.findDTOByName(userName));
         mav.addObject("messages", messagesService.findAllMessagesByAuthor(userName));
         return mav;
     }
@@ -56,7 +49,7 @@ public class UserController {
     @GetMapping(value = "/{userName}/delete")
     public ModelAndView confirmDeleteUserAccount(@PathVariable("userName") String username)
     {
-        UserDTO user = userService.findByName(username);
+        UserDTO user = userService.findDTOByName(username);
         return new ModelAndView("user/delete", "user", user);
     }
 
@@ -64,7 +57,7 @@ public class UserController {
     @PostMapping(value = "/{userName}/delete")
     public ModelAndView deleteUserAccount(@PathVariable("userName") String userName)
     {
-        UserDTO user = userService.findByName(userName);
+        UserDTO user = userService.findDTOByName(userName);
         if(user != null)
         {
             deleteUser(user);

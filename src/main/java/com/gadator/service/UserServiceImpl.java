@@ -29,15 +29,21 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDTO> findAll()
+    public List<UserDTO> findAllDTO()
     {
         return userRepository.findAllDTOByOrderByNameAsc();
     }
 
     @Override
-    public UserDTO findByName(String name)
+    public UserDTO findDTOByName(String name)
     {
         return userRepository.findOneDTOByName(name);
+    }
+
+    @Override
+    public User findOneByName(String name)
+    {
+        return userRepository.findOneByName(name);
     }
 
 
