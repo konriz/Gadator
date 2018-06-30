@@ -9,6 +9,7 @@ import com.gadator.repository.ConversationRepository;
 import com.gadator.repository.TextMessageRepository;
 import com.gadator.repository.UserRepository;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

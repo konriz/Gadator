@@ -4,6 +4,7 @@ import com.gadator.DTO.UserDTO;
 import com.gadator.exception.EmailExistsException;
 import com.gadator.entity.User;
 import com.gadator.exception.NameExistsException;
+import com.gadator.exception.WrongPasswordException;
 import com.gadator.repository.RoleRepository;
 import com.gadator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -100,6 +102,27 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void changePassword(UserDTO user, String password)
+    {
+
+        String encodedPassword = passwordEncoder.encode(password);
+        String username = user.getName();
+
+        userRepository.updatePassword(username, encodedPassword);
+
+    }
+
+    @Override
+    public boolean checkPassword(UserDTO user, String password)
+    {
+        String username = user.getName();
+
+        return passwordEncoder
+                .matches(password,
+                        userRepository.findOneByName(username).getPassword());
     }
 
 

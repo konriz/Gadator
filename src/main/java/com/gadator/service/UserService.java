@@ -4,7 +4,9 @@ import com.gadator.DTO.UserDTO;
 import com.gadator.exception.EmailExistsException;
 import com.gadator.exception.NameExistsException;
 import com.gadator.entity.User;
+import com.gadator.exception.WrongPasswordException;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -48,5 +50,9 @@ public interface UserService {
      * @param username is an username to delete
      */
     void deleteUserAccount(String username);
+
+    void changePassword(UserDTO user, String password);
+
+    boolean checkPassword(UserDTO user, String password);
 
 }

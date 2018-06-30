@@ -32,6 +32,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     )
     List<UserDTO> findAllDTOByOrderByNameAsc();
 
+    @Query(
+            "UPDATE users" +
+                    "SET password = :password" +
+                    "WHERE name = :username"
+    )
+    void updatePassword(@Param("username") String username, @Param("password")String password);
+
     User findOneByName(String name);
 
 }
