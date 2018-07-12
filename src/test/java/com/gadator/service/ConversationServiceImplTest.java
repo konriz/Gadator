@@ -1,15 +1,14 @@
 package com.gadator.service;
 
-import com.gadator.DTO.ConversationDTO;
-import com.gadator.entity.Conversation;
-import com.gadator.entity.TextMessage;
-import com.gadator.entity.User;
-import com.gadator.exception.NameExistsException;
-import com.gadator.repository.ConversationRepository;
-import com.gadator.repository.TextMessageRepository;
-import com.gadator.repository.UserRepository;
+import com.gadator.conversations.DTO.ConversationDTO;
+import com.gadator.conversations.services.ConversationService;
+import com.gadator.conversations.services.ConversationServiceImpl;
+import com.gadator.conversations.entities.Conversation;
+import com.gadator.users.exceptions.NameExistsException;
+import com.gadator.conversations.repositories.ConversationRepository;
+import com.gadator.messages.repositories.TextMessageRepository;
+import com.gadator.users.repositories.UserRepository;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

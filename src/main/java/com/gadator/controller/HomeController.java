@@ -1,10 +1,10 @@
 package com.gadator.controller;
 
-import com.gadator.DTO.UserDTO;
-import com.gadator.entity.User;
-import com.gadator.exception.EmailExistsException;
-import com.gadator.exception.NameExistsException;
-import com.gadator.service.UserService;
+import com.gadator.users.DTO.UserDTO;
+import com.gadator.users.entities.User;
+import com.gadator.users.exceptions.EmailExistsException;
+import com.gadator.users.exceptions.NameExistsException;
+import com.gadator.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -16,7 +16,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

@@ -1,6 +1,6 @@
 package com.gadator.configuration;
 
-import com.gadator.service.UserDetailsServiceImpl;
+import com.gadator.users.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

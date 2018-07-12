@@ -1,11 +1,12 @@
 package com.gadator.service;
 
-import com.gadator.DTO.UserDTO;
-import com.gadator.entity.User;
-import com.gadator.repository.RoleRepository;
-import com.gadator.repository.UserRepository;
+import com.gadator.users.DTO.UserDTO;
+import com.gadator.users.entities.User;
+import com.gadator.users.repositories.RoleRepository;
+import com.gadator.users.repositories.UserRepository;
+import com.gadator.users.services.UserService;
+import com.gadator.users.services.UserServiceImpl;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
