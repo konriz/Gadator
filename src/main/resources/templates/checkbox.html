@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rows example</title>
+</head>
+<body>
+
+<h2>Example of test iterating over multiple named rows</h2>
+
+<table>
+    <tr>
+        <th>Users group</th>
+        <th>Show</th>
+        <th>Add</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+
+    <tr th:each="integer :  ${counter}">
+        <td class="name" id="'name-' + ${integer}" th:text="'Group ' + ${integer}">Group 1</td>
+        <td><input type="checkbox" class="show" id="'show-' + ${integer}"></td>
+        <td><input type="checkbox" class="add" id="'add-' + ${integer}"></td>
+        <td><input type="checkbox" class="edit" id="'edit-' + ${integer}"></td>
+        <td><input type="checkbox" class="delete" id="'delete-' + ${integer}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

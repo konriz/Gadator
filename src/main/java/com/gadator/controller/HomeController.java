@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -85,5 +87,19 @@ public class HomeController {
         }
 
         return registered;
+    }
+
+    @RequestMapping(value = "checkbox", method = RequestMethod.GET)
+    public ModelAndView getCheckboxes()
+    {
+        ModelAndView mav = new ModelAndView("checkbox");
+
+        List<Integer> counter = new ArrayList<>();
+        for(int i = 1; i<=10; i++){
+            counter.add(i);
+        }
+
+        mav.addObject("counter", counter);
+        return mav;
     }
 }
