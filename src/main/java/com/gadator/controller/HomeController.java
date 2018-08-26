@@ -8,10 +8,7 @@ import com.gadator.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -90,12 +87,12 @@ public class HomeController {
     }
 
     @RequestMapping(value = "checkbox", method = RequestMethod.GET)
-    public ModelAndView getCheckboxes()
+    public ModelAndView getCheckboxes(@RequestParam(value = "count", required = false, defaultValue = "10") int rowsCount)
     {
         ModelAndView mav = new ModelAndView("checkbox");
 
         List<Integer> counter = new ArrayList<>();
-        for(int i = 1; i<=10; i++){
+        for(int i = 1; i<=rowsCount; i++){
             counter.add(i);
         }
 
