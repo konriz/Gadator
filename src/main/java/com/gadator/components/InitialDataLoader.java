@@ -1,14 +1,16 @@
 package com.gadator.components;
 
-import com.gadator.entity.Privilege;
-import com.gadator.entity.Role;
-import com.gadator.entity.User;
-import com.gadator.repository.PrivilegeRepository;
-import com.gadator.repository.RoleRepository;
-import com.gadator.repository.UserRepository;
+import com.gadator.users.entities.Privilege;
+import com.gadator.users.entities.Role;
+import com.gadator.users.entities.User;
+import com.gadator.users.repositories.PrivilegeRepository;
+import com.gadator.users.repositories.RoleRepository;
+import com.gadator.users.repositories.UserRepository;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,22 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
+@Log
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent>{
 
     boolean alreadySetup = false;
 
     @Autowired
+    @Lazy
     private UserRepository userRepository;
 
     @Autowired
+    @Lazy
     private RoleRepository roleRepository;
 
     @Autowired
+    @Lazy
     private PrivilegeRepository privilegeRepository;
 
     @Autowired
+    @Lazy
     private PasswordEncoder passwordEncoder;
 
     @Override

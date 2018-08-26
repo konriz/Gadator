@@ -9,7 +9,7 @@
 
 <nav th:insert="~{header :: navigation}"/>
 
-<ul>
+<ul id="users-list">
     <li th:each="user : ${users}" >
         <a th:href="'/user/' + ${user.name}" th:text="${user.name}">User name</a>
     </li>

@@ -10,7 +10,7 @@
 
 <nav th:insert="~{header :: navigation}"/>
 
-<div th:if="${param.error}">
+<div th:id="invalid-login" th:if="${param.error}">
     Invalid username and password.
 </div>
 <div th:if="${param.logout}">

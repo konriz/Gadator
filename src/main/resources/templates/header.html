@@ -6,19 +6,23 @@
 </head>
 <body>
 
-<nav class="navigation" th:fragment="navigation" th:switch="${#authentication.getPrincipal()}">
+<nav class="navigation" th:fragment="navigation"
+     th:with="user = ${#authentication.getPrincipal()}"
+     th:switch="${#authentication.getPrincipal()}">
 
     <ul th:case="'anonymousUser'">
 
         <li id="home-button"><a href="/home.html" th:href="@{/}">Home</a></li>
-        <li id="registration-button"><a href="/user/registration.html" th:href="@{/user/registration}">Registration</a></li>
+        <li id="registration-button"><a href="/registration.html" th:href="@{/registration}">Registration</a></li>
         <li id="login-button"><a href="/login.html" th:href="@{/login}">Login</a></li>
     </ul>
 
     <ul th:case="*">
         <li id="home-button"><a href="/home.html" th:href="@{/}">Home</a></li>
-        <li id="panel-button"><a href="/user" th:href="@{/user}" th:text="${#authentication.getPrincipal().getUsername()}">User Panel</a></li>
-        <li id="users-button"><a href="/user/list" th:href="@{/user/list}">Users</a></li>
+        <li id="panel-button"><a href="/user"
+                                 th:href="@{/user/{username}(username=${#authentication.getPrincipal().getUsername()})}"
+                                 th:text="${#authentication.getPrincipal().getUsername()}">User Panel</a></li>
+        <li id="users-button"><a href="/user" th:href="@{/user}">Users</a></li>
         <li id="conversations-button"><a href="/conversations.html" th:href="@{/conversations/}">Conversations</a></li>
         <li id="logout-button"><a href="/logout">Logout</a></li>
     </ul>

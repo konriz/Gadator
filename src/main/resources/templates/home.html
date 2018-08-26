@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <nav th:insert="~{header :: navigation}"/>
+    <div th:insert="~{header :: navigation}"/>
 
     <h1 th:text="#{home.header}">Welcome!</h1>
 
@@ -18,7 +18,7 @@
 
         <p th:case="'anonymousUser'">
             Welcome anonymous! Please,
-            <a href="user/registration.html" th:href="@{user/registration}">register</a>
+            <a href="registration.html" th:href="@{/registration}">register</a>
             or
             <a href="login.html" th:href="@{/login}">log in!</a>
         </p>

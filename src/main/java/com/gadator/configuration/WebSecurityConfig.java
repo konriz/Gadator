@@ -1,6 +1,6 @@
 package com.gadator.configuration;
 
-import com.gadator.service.UserDetailsServiceImpl;
+import com.gadator.users.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/user/registration", "/error", "/bots/**", "/css/**").permitAll()
+                    .antMatchers("/", "/registration", "/error", "/css/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
